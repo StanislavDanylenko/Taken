@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,16 +15,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
-    public static final int DELAY_MILLIS = 5_000;
-    TextView x;
-    TextView y;
-    TextView z;
+    public static int DELAY_MILLIS = 5_000;
+    private TextView x;
+    private TextView y;
+    private TextView z;
 
-    float[] startValues = new float[3];
-    float[] currentValues;
+    private float[] startValues = new float[3];
+    private float[] currentValues;
 
-    long timestamp;
-    boolean started = false;
+    private long startTimestamp;
+    private boolean started = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         long currentTimeMillis = System.currentTimeMillis();
-        long diff = currentTimeMillis - timestamp;
+        long diff = currentTimeMillis - startTimestamp;
         if (diff > 1_000) {
             if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 float[] values = sensorEvent.values;
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         Toast.makeText(this, "TAKEN", Toast.LENGTH_SHORT).show();
                     }
                 }
-                timestamp = currentTimeMillis;
+                startTimestamp = currentTimeMillis;
             }
         }
     }
@@ -78,17 +79,52 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
-
-    }
+    public void onAccuracyChanged(Sensor sensor, int i) {}
 
     public void startChecking(View view) {
-        // todo: save user's value
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
             startValues = currentValues.clone();
-            timestamp = System.currentTimeMillis();
+            startTimestamp = System.currentTimeMillis();
             started = true;
         }, DELAY_MILLIS);
+        Toast.makeText(this, "Started", Toast.LENGTH_SHORT).show();
     }
+
+    public void stopChecking(View view) {
+        startValues = null;
+        startTimestamp = Long.MIN_VALUE;
+        started = false;
+        Toast.makeText(this, "Stoped", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onRadioButtonClicked(View view) {
+        // если переключатель отмечен
+        boolean checked = ((RadioButton) view).isChecked();
+        // Получаем нажатый переключатель
+        switch(view.getId()) {
+            case R.id.fivesec:
+                if (checked){
+                    DELAY_MILLIS = 5 * 1000;
+                }
+                break;
+            case R.id.tensec:
+                if (checked){
+                    DELAY_MILLIS = 10 * 1000;
+                }
+                break;
+            case R.id.twentysec:
+                if (checked){
+                    DELAY_MILLIS = 20 * 1000;
+                }
+                break;
+            case R.id.thirtySec:
+                if (checked){
+                    DELAY_MILLIS = 30 * 1000;
+                }
+                break;
+        }
+    }
+
+
 }

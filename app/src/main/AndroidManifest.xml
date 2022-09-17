@@ -13,6 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Taken"
         tools:targetApi="31">
+        <service
+            android:name=".CheckingService"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

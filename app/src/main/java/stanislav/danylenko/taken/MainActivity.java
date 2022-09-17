@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 if (started) {
                     if (taken()) {
                         Toast.makeText(this, "TAKEN", Toast.LENGTH_SHORT).show();
+                        NotificationUtils.showNotification(this, "Hello", getIntent(), 1);
                     }
                 }
                 startTimestamp = currentTimeMillis;

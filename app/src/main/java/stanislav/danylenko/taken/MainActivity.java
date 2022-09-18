@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private long startTimestamp;
     private boolean started = false;
 
+    private LinearLayout info;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         x = findViewById(R.id.x);
         y = findViewById(R.id.y);
         z = findViewById(R.id.z);
+
+        info = findViewById(R.id.info);
 
         SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         if (sensorManager != null) {
@@ -90,7 +95,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             startTimestamp = System.currentTimeMillis();
             started = true;
         }, DELAY_MILLIS);
-        Toast.makeText(this, "Started", Toast.LENGTH_SHORT).show();
+
+        NotificationUtils.showProgressNotification(this, getIntent());
     }
 
     public void stopChecking(View view) {
@@ -106,6 +112,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         boolean checked = ((RadioButton) view).isChecked();
         // Получаем нажатый переключатель
         switch(view.getId()) {
+            case R.id.instantly:
+                if (checked){
+                    DELAY_MILLIS = (int) (0.5 * 1000);
+                }
+                break;
             case R.id.fivesec:
                 if (checked){
                     DELAY_MILLIS = 5 * 1000;
@@ -130,4 +141,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 
+    public void showHideInfo(View view) {
+        int visibility = info.getVisibility();
+        if (visibility == 4) {
+            info.setVisibility(View.VISIBLE);
+        } else {
+            info.setVisibility(View.INVISIBLE);
+        }
+    }
 }

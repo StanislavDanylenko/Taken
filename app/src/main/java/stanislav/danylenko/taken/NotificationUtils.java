@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import java.util.Random;
@@ -23,9 +24,24 @@ public class NotificationUtils {
     private NotificationUtils() {
     }
 
-    public static void showNotification(Context context, Intent intent) {
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    public static void showWarningNotification(Context context) {
+        showNotification(context, "Attention!", "Someone took your phone", false);
+    }
 
+    public static void showPositionNotification(Context context) {
+        showNotification(context, "Position saved", "Don't worry about your smartphone", true);
+    }
+
+    public static void showStoppedNotification(Context context) {
+        showNotification(context, "Tracking stopped", "Password successfully entered", true);
+    }
+
+    public static void showProgressNotification(Context context) {
+        showNotification(context, null, null, false);
+    }
+
+    public static void showNotification(Context context, String title, String body, boolean hidable) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
@@ -35,19 +51,13 @@ public class NotificationUtils {
             notificationManager.createNotificationChannel(mChannel);
         }
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_baseline_warning_24)
-                .setLargeIcon(BitmapFactory.decodeResource(
-                        context.getResources(), R.drawable.icon))
-                .setContentTitle("Attention!")
-                .setContentText("Someone took your phone")
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setCategory(NotificationCompat.CATEGORY_ALARM)
-                .setOngoing(true)
-                .setAutoCancel(false);
+        NotificationCompat.Builder mBuilder = getDefaultBuilder(context, title, body, hidable);
+        if (body == null) {
+            mBuilder = getProgressBuilder(context);
+        }
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addNextIntent(intent);
+        stackBuilder.addNextIntent(new Intent(context, MainActivity.class));
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
                 0,
                 PendingIntent.FLAG_UPDATE_CURRENT
@@ -57,19 +67,22 @@ public class NotificationUtils {
         notificationManager.notify(getRandomId(), mBuilder.build());
     }
 
-    public static void showProgressNotification(Context context, Intent intent) {
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    @NonNull
+    private static NotificationCompat.Builder getDefaultBuilder(Context context, String title, String body, boolean hidable) {
+        return new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_baseline_warning_24)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon))
+                .setContentTitle(title)
+                .setContentText(body)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
+                .setOngoing(!hidable)
+                .setAutoCancel(hidable);
+    }
 
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel mChannel = new NotificationChannel(
-                    CHANNEL_ID, NOTE_APPLICATION_CHANNEL, importance);
-            mChannel.setDescription("Channel for notification of user");
-            notificationManager.createNotificationChannel(mChannel);
-        }
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
+    @NonNull
+    private static NotificationCompat.Builder getProgressBuilder(Context context) {
+        return new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_baseline_sync_24)
                 .setContentTitle("Tracking state of your phone")
                 .setProgress(0, 0, true)
@@ -77,16 +90,6 @@ public class NotificationUtils {
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setOngoing(true)
                 .setAutoCancel(false);
-
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addNextIntent(intent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
-                0,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
-        mBuilder.setContentIntent(resultPendingIntent);
-
-        notificationManager.notify(getRandomId(), mBuilder.build());
     }
 
     public static void cancelAll(Context context) {

@@ -60,7 +60,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 if (started) {
                     if (taken()) {
                         Toast.makeText(this, "TAKEN", Toast.LENGTH_SHORT).show();
-                        NotificationUtils.showNotification(this, "Hello", getIntent(), 1);
+                        NotificationUtils.cancelAll(this);
+                        NotificationUtils.showNotification(this, getIntent());
                     }
                 }
                 startTimestamp = currentTimeMillis;
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startTimestamp = Long.MIN_VALUE;
         started = false;
         Toast.makeText(this, "Stoped", Toast.LENGTH_SHORT).show();
+        NotificationUtils.cancelAll(this);
     }
 
     public void onRadioButtonClicked(View view) {

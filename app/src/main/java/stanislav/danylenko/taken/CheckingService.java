@@ -7,6 +7,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.widget.Toast;
@@ -71,8 +72,9 @@ public class CheckingService extends Service implements SensorEventListener {
     public int onStartCommand(Intent intent, int flags, int startId) {
         this.delayMillis = intent.getIntExtra(AppConstants.DELAY, AppConstants.DELAY_MILLIS_DEFAULT);
         this.sensitivity = intent.getIntExtra(AppConstants.SENSITIVITY, AppConstants.DEFAULT_SENSITIVITY);
+        int channelId = intent.getIntExtra(AppConstants.CHANNEL_ID, -1);
 
-        NotificationUtils.showProgressNotification(this);
+        showForegroundNotification(channelId);
 
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
@@ -83,6 +85,14 @@ public class CheckingService extends Service implements SensorEventListener {
         }, delayMillis);
 
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void showForegroundNotification(int channelId) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForeground(channelId, NotificationUtils.getProgressNotification(context));
+        } else {
+            NotificationUtils.showProgressNotification(this);
+        }
     }
 
     @Override

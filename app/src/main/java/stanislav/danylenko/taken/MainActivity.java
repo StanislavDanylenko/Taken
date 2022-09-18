@@ -2,8 +2,11 @@ package stanislav.danylenko.taken;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -31,11 +34,27 @@ public class MainActivity extends AppCompatActivity {
         SeekBar seekBar = findViewById(R.id.seekBar);
         SENSITIVITY = seekBar.getProgress();
 
-        startService(new Intent(this, CheckingService.class)
-                .putExtra(AppConstants.DELAY, DELAY_MILLIS)
-                .putExtra(AppConstants.SENSITIVITY, SENSITIVITY));
+        startService();
     }
 
+    private void startService() {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel mChannel = new NotificationChannel(NotificationUtils.PROGRESS_CHANNEL_ID, NotificationUtils.PROGRESS_CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(mChannel);
+            }
+            startForegroundService(new Intent(this, CheckingService.class)
+                    .putExtra(AppConstants.DELAY, DELAY_MILLIS)
+                    .putExtra(AppConstants.SENSITIVITY, SENSITIVITY)
+                    .putExtra(AppConstants.CHANNEL_ID, mChannel.getId()));
+        } else {
+            startService(new Intent(this, CheckingService.class)
+                    .putExtra(AppConstants.DELAY, DELAY_MILLIS)
+                    .putExtra(AppConstants.SENSITIVITY, SENSITIVITY));
+        }
+    }
 
     public void stopChecking(View view) {
         stopService(new Intent(this, CheckingService.class));

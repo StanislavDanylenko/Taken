@@ -1,5 +1,6 @@
 package stanislav.danylenko.taken;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -17,7 +18,10 @@ import java.util.Random;
 public class NotificationUtils {
 
     public static final String CHANNEL_ID = "TakenNotificationChannel";
-    public static final String NOTE_APPLICATION_CHANNEL = "TakenNotificationChannel";
+    public static final String CHANNEL_NAME = "TakenNotificationChannel";
+
+    public static final String PROGRESS_CHANNEL_ID = "TakenNotificationProgressChannel";
+    public static final String PROGRESS_CHANNEL_NAME = "TakenNotificationProgressChannel";
 
     private static final Random RANDOM = new Random();
 
@@ -40,13 +44,17 @@ public class NotificationUtils {
         showNotification(context, null, null, false);
     }
 
-    public static void showNotification(Context context, String title, String body, boolean hidable) {
+    public static Notification getProgressNotification(Context context) {
+        return buildNotification(context, null, null, false);
+    }
+
+    public static Notification buildNotification(Context context, String title, String body, boolean hidable) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel mChannel = new NotificationChannel(
-                    CHANNEL_ID, NOTE_APPLICATION_CHANNEL, importance);
+                    CHANNEL_ID, CHANNEL_NAME, importance);
             mChannel.setDescription("Channel for notification of user");
             notificationManager.createNotificationChannel(mChannel);
         }
@@ -64,7 +72,14 @@ public class NotificationUtils {
         );
         mBuilder.setContentIntent(resultPendingIntent);
 
-        notificationManager.notify(getRandomId(), mBuilder.build());
+        return mBuilder.build();
+    }
+
+    public static void showNotification(Context context, String title, String body, boolean hidable) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Notification notification = buildNotification(context, title, body, hidable);
+        notificationManager.notify(getRandomId(),notification);
     }
 
     @NonNull

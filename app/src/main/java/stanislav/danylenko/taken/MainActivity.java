@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,10 +21,29 @@ public class MainActivity extends AppCompatActivity {
     public static int DELAY_MILLIS = 5_000;
     public static int SENSITIVITY = 5;
 
+    private SeekBar seekBar;
+    private TextView seekBarCurrentValue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        this.seekBar = findViewById(R.id.seekBar);
+        this.seekBarCurrentValue = findViewById(R.id.current_progress);
+
+        this.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                seekBarCurrentValue.setText("" + progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
     }
 
     @Override
@@ -36,8 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void startChecking(View view) {
         if (AppPreferences.isPsswdExists(this)) {
-            SeekBar seekBar = findViewById(R.id.seekBar);
-            SENSITIVITY = seekBar.getProgress();
+            SENSITIVITY = this.seekBar.getProgress();
 
             startService();
             startPinActivity();

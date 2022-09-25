@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Taken</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="new_password_repeat">Repeat New Password</string>
+    <string name="fill_in">Fill in</string>
+    <string name="confirm">Confirm</string>
+    <string name="set_value">Please set the value</string>
+    <string name="passwords_equals">Passwords should be the same</string>
+    <string name="wrong_length">Please fill in 4 digits</string>
+    <string name="incorrect_existing">Incorrect existing password</string>
+    <string name="incorrect_password">Incorrect password</string>
+    <string name="start">start</string>
+    <string name="enter_pin">Enter a PIN to stop tracking</string>
 </resources>

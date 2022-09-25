@@ -1,5 +1,6 @@
 package stanislav.danylenko.taken;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -72,9 +73,8 @@ public class CheckingService extends Service implements SensorEventListener {
     public int onStartCommand(Intent intent, int flags, int startId) {
         this.delayMillis = intent.getIntExtra(AppConstants.DELAY, AppConstants.DELAY_MILLIS_DEFAULT);
         this.sensitivity = intent.getIntExtra(AppConstants.SENSITIVITY, AppConstants.DEFAULT_SENSITIVITY);
-        int channelId = intent.getIntExtra(AppConstants.CHANNEL_ID, -1);
 
-        showForegroundNotification(channelId);
+        showForegroundNotification();
 
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
@@ -87,9 +87,11 @@ public class CheckingService extends Service implements SensorEventListener {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void showForegroundNotification(int channelId) {
+    private void showForegroundNotification() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForeground(channelId, NotificationUtils.getProgressNotification(context));
+            startForeground(
+                    NotificationUtils.getRandomId(),
+                    NotificationUtils.getProgressNotification(context));
         } else {
             NotificationUtils.showProgressNotification(this);
         }

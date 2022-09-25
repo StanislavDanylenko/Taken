@@ -2,16 +2,16 @@ package stanislav.danylenko.taken;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,44 +20,43 @@ public class MainActivity extends AppCompatActivity {
     public static int DELAY_MILLIS = 5_000;
     public static int SENSITIVITY = 5;
 
-    private LinearLayout info;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
 
-        info = findViewById(R.id.info);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isServiceRunning(CheckingService.class)) {
+            startPinActivity();
+        }
     }
 
     public void startChecking(View view) {
-        SeekBar seekBar = findViewById(R.id.seekBar);
-        SENSITIVITY = seekBar.getProgress();
+        if (AppPreferences.isPsswdExists(this)) {
+            SeekBar seekBar = findViewById(R.id.seekBar);
+            SENSITIVITY = seekBar.getProgress();
 
-        startService();
+            startService();
+            startPinActivity();
+        } else {
+            Toast.makeText(this, "You haven't specified your password, do it before tracking", Toast.LENGTH_LONG).show();
+            startPinActivity();
+        }
     }
 
     private void startService() {
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel mChannel = new NotificationChannel(NotificationUtils.PROGRESS_CHANNEL_ID, NotificationUtils.PROGRESS_CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW);
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(mChannel);
-            }
             startForegroundService(new Intent(this, CheckingService.class)
                     .putExtra(AppConstants.DELAY, DELAY_MILLIS)
-                    .putExtra(AppConstants.SENSITIVITY, SENSITIVITY)
-                    .putExtra(AppConstants.CHANNEL_ID, mChannel.getId()));
+                    .putExtra(AppConstants.SENSITIVITY, SENSITIVITY));
         } else {
             startService(new Intent(this, CheckingService.class)
                     .putExtra(AppConstants.DELAY, DELAY_MILLIS)
                     .putExtra(AppConstants.SENSITIVITY, SENSITIVITY));
         }
-    }
-
-    public void stopChecking(View view) {
-        stopService(new Intent(this, CheckingService.class));
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -84,16 +83,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void showHideInfo(View view) {
-        int visibility = info.getVisibility();
-        if (visibility == View.INVISIBLE) {
-            info.setVisibility(View.VISIBLE);
-        } else {
-            info.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
+    private boolean isServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
@@ -101,5 +91,35 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    public void startPinActivity() {
+        Intent intent = new Intent(this, PinActivity.class);
+        startActivity(intent);
+    }
+
+    public void startInfoActivity() {
+        Intent intent = new Intent(this, InfoActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        switch (itemId) {
+            case R.id.settings:
+                startPinActivity();
+                break;
+            case R.id.info:
+                startInfoActivity();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

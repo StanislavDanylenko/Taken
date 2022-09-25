@@ -20,13 +20,9 @@ public class NotificationUtils {
     public static final String CHANNEL_ID = "TakenNotificationChannel";
     public static final String CHANNEL_NAME = "TakenNotificationChannel";
 
-    public static final String PROGRESS_CHANNEL_ID = "TakenNotificationProgressChannel";
-    public static final String PROGRESS_CHANNEL_NAME = "TakenNotificationProgressChannel";
-
     private static final Random RANDOM = new Random();
 
-    private NotificationUtils() {
-    }
+    private NotificationUtils() {}
 
     public static void showWarningNotification(Context context) {
         showNotification(context, "Attention!", "Someone took your phone", false);
@@ -89,6 +85,7 @@ public class NotificationUtils {
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon))
                 .setContentTitle(title)
                 .setContentText(body)
+                .setVisibility(NotificationCompat.VISIBILITY_SECRET)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setOngoing(!hidable)
@@ -100,6 +97,7 @@ public class NotificationUtils {
         return new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_baseline_sync_24)
                 .setContentTitle("Tracking state of your phone")
+                .setVisibility(NotificationCompat.VISIBILITY_SECRET)
                 .setProgress(0, 0, true)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
@@ -112,7 +110,7 @@ public class NotificationUtils {
         notificationManager.cancelAll();
     }
 
-    private static int getRandomId() {
+    public static int getRandomId() {
         return RANDOM.nextInt();
     }
 

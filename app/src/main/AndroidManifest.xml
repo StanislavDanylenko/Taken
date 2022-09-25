@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="stanislav.danylenko.taken">
 
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Taken"
         tools:targetApi="31">
+        <activity
+            android:name=".InfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PinActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+
         <service
             android:name=".CheckingService"
             android:enabled="true"

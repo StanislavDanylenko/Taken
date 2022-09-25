@@ -1,6 +1,5 @@
 package stanislav.danylenko.taken;
 
-import android.app.Notification;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +16,8 @@ import androidx.annotation.Nullable;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class CheckingService extends Service implements SensorEventListener {
 
@@ -24,6 +25,7 @@ public class CheckingService extends Service implements SensorEventListener {
     private int sensitivity;
 
     private boolean taken = false;
+    private boolean cancelled = false;
     private Context context;
 
     private float[] startValues = new float[3];
@@ -32,8 +34,7 @@ public class CheckingService extends Service implements SensorEventListener {
     private long startTimestamp = Long.MAX_VALUE;
     private boolean started = false;
 
-    private final Timer timer = new Timer();
-    private TimerTask notifyWarningTask;
+    private final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
 
     @Nullable
     @Override
@@ -47,14 +48,6 @@ public class CheckingService extends Service implements SensorEventListener {
         this.context = this;
 
         registerSensorListener();
-
-        notifyWarningTask = new TimerTask() {
-            @Override
-            public void run() {
-                NotificationUtils.cancelAll(context);
-                NotificationUtils.showWarningNotification(context);
-            }
-        };
     }
 
     private void registerSensorListener() {
@@ -78,10 +71,12 @@ public class CheckingService extends Service implements SensorEventListener {
 
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
-            startValues = currentValues.clone();
-            startTimestamp = System.currentTimeMillis();
-            started = true;
-            NotificationUtils.showPositionNotification(context);
+            if (!cancelled) {
+                startValues = currentValues.clone();
+                startTimestamp = System.currentTimeMillis();
+                started = true;
+                NotificationUtils.showPositionNotification(context);
+            }
         }, delayMillis);
 
         return super.onStartCommand(intent, flags, startId);
@@ -119,7 +114,9 @@ public class CheckingService extends Service implements SensorEventListener {
         startTimestamp = Long.MAX_VALUE;
         started = false;
         taken = false;
-        timer.cancel();
+        cancelled = true;
+        executor.shutdown();
+        executor.shutdownNow();
         NotificationUtils.cancelAll(this);
         NotificationUtils.showStoppedNotification(context);
     }
@@ -128,7 +125,7 @@ public class CheckingService extends Service implements SensorEventListener {
     public void onSensorChanged(SensorEvent sensorEvent) {
         currentValues = sensorEvent.values;
 
-        if (!taken) {
+        if (!taken && !cancelled) {
             long currentTimeMillis = System.currentTimeMillis();
             long diff = currentTimeMillis - startTimestamp;
 
@@ -138,7 +135,10 @@ public class CheckingService extends Service implements SensorEventListener {
                         if (taken()) {
                             taken = true;
                             NotificationUtils.cancelAll(this);
-                            timer.scheduleAtFixedRate(notifyWarningTask, 0, 2_000);
+                            executor.scheduleAtFixedRate(() -> {
+                                NotificationUtils.cancelAll(context);
+                                NotificationUtils.showWarningNotification(context);
+                            }, 0, 2, TimeUnit.SECONDS);
                         }
                     }
                     startTimestamp = currentTimeMillis;

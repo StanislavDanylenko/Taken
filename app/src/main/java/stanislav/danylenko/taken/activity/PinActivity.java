@@ -1,4 +1,4 @@
-package stanislav.danylenko.taken;
+package stanislav.danylenko.taken.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,12 +7,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chaos.view.PinView;
+
+import stanislav.danylenko.taken.utils.AppPreferences;
+import stanislav.danylenko.taken.utils.AppUtils;
+import stanislav.danylenko.taken.service.CheckingService;
+import stanislav.danylenko.taken.R;
 
 public class PinActivity extends AppCompatActivity {
 
@@ -32,6 +36,8 @@ public class PinActivity extends AppCompatActivity {
     private boolean newMode = false;
     private boolean serviceRunning = false;
 
+    private ActivityManager activityManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +54,7 @@ public class PinActivity extends AppCompatActivity {
         this.newPasswordRepeatValidation = findViewById(R.id.newPasswordRepeatValidation);
 
         this.backButton = findViewById(R.id.back_btn);
+        this.activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 
         cleanErrors();
     }
@@ -81,7 +88,7 @@ public class PinActivity extends AppCompatActivity {
 
         if (this.serviceRunning) {
             validateInput(newPassword, newPasswordValidation);
-            validateEnteredTheSame();
+            validateCurrentTheSame();
             if (!this.containsError) {
                 stopService(new Intent(this, CheckingService.class));
                 toMainActivity(null);
@@ -95,7 +102,7 @@ public class PinActivity extends AppCompatActivity {
             validateInput(newPassword, newPasswordValidation);
             validateInput(newPasswordRepeat, newPasswordRepeatValidation);
 
-            validateTheSame();
+            validateNewPasswordsTheSame();
 
             if (!this.containsError) {
                 AppPreferences.putData(this, AppPreferences.PSSWD, newPassword.getText().toString());
@@ -107,15 +114,6 @@ public class PinActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     private void validateInput(PinView view, TextView errorView) {
         String oldPass = view.getText().toString();
@@ -128,7 +126,7 @@ public class PinActivity extends AppCompatActivity {
         }
     }
 
-    private void validateTheSame() {
+    private void validateNewPasswordsTheSame() {
         String newPass = newPassword.getText().toString();
         String newPassRepeat = newPasswordRepeat.getText().toString();
 
@@ -150,7 +148,7 @@ public class PinActivity extends AppCompatActivity {
         }
     }
 
-    private void validateEnteredTheSame() {
+    private void validateCurrentTheSame() {
         String pass = AppPreferences.getData(this, AppPreferences.PSSWD);
         String input = newPassword.getText().toString();
 
@@ -176,7 +174,7 @@ public class PinActivity extends AppCompatActivity {
     }
 
     private void checkServiceRunningPassword() {
-        if (isServiceRunning(CheckingService.class)) {
+        if (AppUtils.isServiceRunning(activityManager, CheckingService.class)) {
             this.serviceRunning = true;
             hideNewPasswordRepeat();
             hideOldPassword();

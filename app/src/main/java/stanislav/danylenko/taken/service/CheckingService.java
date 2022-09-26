@@ -1,4 +1,4 @@
-package stanislav.danylenko.taken;
+package stanislav.danylenko.taken.service;
 
 import android.app.Service;
 import android.content.Context;
@@ -14,10 +14,11 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import stanislav.danylenko.taken.utils.AppUtils;
+import stanislav.danylenko.taken.utils.NotificationUtils;
 
 public class CheckingService extends Service implements SensorEventListener {
 
@@ -64,8 +65,8 @@ public class CheckingService extends Service implements SensorEventListener {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        this.delayMillis = intent.getIntExtra(AppConstants.DELAY, AppConstants.DELAY_MILLIS_DEFAULT);
-        this.sensitivity = intent.getIntExtra(AppConstants.SENSITIVITY, AppConstants.DEFAULT_SENSITIVITY);
+        this.delayMillis = intent.getIntExtra(AppUtils.DELAY, AppUtils.DELAY_MILLIS_DEFAULT);
+        this.sensitivity = intent.getIntExtra(AppUtils.SENSITIVITY, AppUtils.DEFAULT_SENSITIVITY);
 
         showForegroundNotification();
 

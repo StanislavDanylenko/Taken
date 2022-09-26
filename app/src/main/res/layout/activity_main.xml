@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
 
     <androidx.cardview.widget.CardView
@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="onRadioButtonClicked"
-                    android:text="Instantly" />
+                    android:text="@string/instantly" />
 
                 <RadioButton
                     android:id="@+id/fivesec"
@@ -59,28 +59,34 @@
                     android:layout_height="wrap_content"
                     android:onClick="onRadioButtonClicked"
 
-                    android:text="5 s" />
+                    android:text="@string/_5_seconds" />
 
                 <RadioButton
                     android:id="@+id/tensec"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="onRadioButtonClicked"
-                    android:text="10 s" />
+                    android:text="@string/_10_seconds" />
 
                 <RadioButton
                     android:id="@+id/twentysec"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="onRadioButtonClicked"
-                    android:text="20s" />
+                    android:text="@string/_20_seconds" />
 
                 <RadioButton
                     android:id="@+id/thirtySec"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="onRadioButtonClicked"
-                    android:text="30s" />
+                    android:text="@string/_30_seconds" />
+                <RadioButton
+                    android:id="@+id/sixtySec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="@string/_60_seconds" />
             </RadioGroup>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -122,9 +128,9 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/sensitivityTitle"
                 app:layout_constraintLeft_toLeftOf="@id/sensitivityTitle"
-                android:max="10"
+                android:max="11"
                 android:min="1"
-                android:progress="3" />
+                android:progress="6" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -136,18 +142,9 @@
                     android:id="@+id/from"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="1"
+                    android:text="low"
                     android:gravity="left"
                     android:layout_marginStart="5sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/current_progress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="3"
-                    android:gravity="center"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -155,7 +152,7 @@
                     android:id="@+id/to"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="10"
+                    android:text="high"
                     android:gravity="right"
                     android:layout_marginEnd="5sp"
                     app:layout_constraintRight_toRightOf="parent"

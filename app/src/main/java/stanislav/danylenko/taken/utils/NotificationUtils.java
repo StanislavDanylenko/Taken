@@ -1,4 +1,4 @@
-package stanislav.danylenko.taken;
+package stanislav.danylenko.taken.utils;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -14,6 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import java.util.Random;
+
+import stanislav.danylenko.taken.R;
+import stanislav.danylenko.taken.activity.MainActivity;
 
 public class NotificationUtils {
 

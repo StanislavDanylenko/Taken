@@ -1,4 +1,4 @@
-package stanislav.danylenko.taken;
+package stanislav.danylenko.taken.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

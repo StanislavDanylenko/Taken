@@ -12,4 +12,10 @@
     <string name="incorrect_password">Incorrect password</string>
     <string name="start">start</string>
     <string name="enter_pin">Enter a PIN to stop tracking</string>
+    <string name="instantly">Instantly</string>
+    <string name="_5_seconds">5 seconds</string>
+    <string name="_10_seconds">10 seconds</string>
+    <string name="_20_seconds">20 seconds</string>
+    <string name="_30_seconds">30 seconds</string>
+    <string name="_60_seconds">60 seconds</string>
 </resources>

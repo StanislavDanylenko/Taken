@@ -16,20 +16,20 @@
         android:theme="@style/Theme.Taken"
         tools:targetApi="31">
         <activity
-            android:name=".InfoActivity"
+            android:name=".activity.InfoActivity"
             android:exported="false" />
         <activity
-            android:name=".PinActivity"
+            android:name=".activity.PinActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".activity.MainActivity" />
 
         <service
-            android:name=".CheckingService"
+            android:name=".service.CheckingService"
             android:enabled="true"
             android:exported="true" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

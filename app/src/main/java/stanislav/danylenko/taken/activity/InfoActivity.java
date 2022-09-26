@@ -1,8 +1,10 @@
-package stanislav.danylenko.taken;
+package stanislav.danylenko.taken.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import stanislav.danylenko.taken.R;
 
 public class InfoActivity extends AppCompatActivity {
 

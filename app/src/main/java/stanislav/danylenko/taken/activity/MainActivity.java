@@ -1,4 +1,4 @@
-package stanislav.danylenko.taken;
+package stanislav.danylenko.taken.activity;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
@@ -11,10 +11,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import stanislav.danylenko.taken.utils.AppPreferences;
+import stanislav.danylenko.taken.utils.AppUtils;
+import stanislav.danylenko.taken.service.CheckingService;
+import stanislav.danylenko.taken.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +26,9 @@ public class MainActivity extends AppCompatActivity {
     public static int SENSITIVITY = 5;
 
     private SeekBar seekBar;
-    private TextView seekBarCurrentValue;
+    private ActivityManager activityManager;
+
+    private final int SENSITIVITY_MAX_VALUE = 12;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,33 +36,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         this.seekBar = findViewById(R.id.seekBar);
-        this.seekBarCurrentValue = findViewById(R.id.current_progress);
-
-        this.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                seekBarCurrentValue.setText("" + progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
-        });
+        this.activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (isServiceRunning(CheckingService.class)) {
+        if (AppUtils.isServiceRunning(activityManager, CheckingService.class)) {
             startPinActivity();
         }
     }
 
     public void startChecking(View view) {
         if (AppPreferences.isPsswdExists(this)) {
-            SENSITIVITY = this.seekBar.getProgress();
+            SENSITIVITY = SENSITIVITY_MAX_VALUE - this.seekBar.getProgress();
 
             startService();
             startPinActivity();
@@ -69,12 +62,12 @@ public class MainActivity extends AppCompatActivity {
     private void startService() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(new Intent(this, CheckingService.class)
-                    .putExtra(AppConstants.DELAY, DELAY_MILLIS)
-                    .putExtra(AppConstants.SENSITIVITY, SENSITIVITY));
+                    .putExtra(AppUtils.DELAY, DELAY_MILLIS)
+                    .putExtra(AppUtils.SENSITIVITY, SENSITIVITY));
         } else {
             startService(new Intent(this, CheckingService.class)
-                    .putExtra(AppConstants.DELAY, DELAY_MILLIS)
-                    .putExtra(AppConstants.SENSITIVITY, SENSITIVITY));
+                    .putExtra(AppUtils.DELAY, DELAY_MILLIS)
+                    .putExtra(AppUtils.SENSITIVITY, SENSITIVITY));
         }
     }
 
@@ -98,18 +91,11 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.thirtySec:
                     DELAY_MILLIS = 30 * 1000;
                     break;
+                case R.id.sixtySec:
+                    DELAY_MILLIS = 60 * 1000;
+                    break;
             }
         }
-    }
-
-    private boolean isServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void startPinActivity() {
@@ -128,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();

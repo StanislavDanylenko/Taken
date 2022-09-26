@@ -1,5 +1,6 @@
 package stanislav.danylenko.taken.activity;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityManager;
@@ -63,8 +64,23 @@ public class PinActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        setAppBarText("Update your PIN");
+        setMainPinViewText("New PIN");
+
         checkExistingPassword();
         checkServiceRunningPassword();
+    }
+
+    private void setAppBarText(String text) {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(text);
+        }
+    }
+
+    private void setMainPinViewText(String text) {
+        TextView view = findViewById(R.id.newPasswordText);
+        view.setText(text);
     }
 
     private void cleanErrors() {
@@ -167,6 +183,7 @@ public class PinActivity extends AppCompatActivity {
         if (isEmpty(existingPassword)) {
             this.newMode = true;
             hideOldPassword();
+            setAppBarText("Create your PIN");
         } else {
             this.newMode = false;
             showOldPassword();
@@ -180,6 +197,8 @@ public class PinActivity extends AppCompatActivity {
             hideOldPassword();
             backButton.setEnabled(false);
             newPasswordValidation.setText(R.string.enter_pin);
+            setAppBarText("Enter your PIN");
+            setMainPinViewText(EMPTY_STRING);
         } else {
             this.serviceRunning = false;
             backButton.setEnabled(true);

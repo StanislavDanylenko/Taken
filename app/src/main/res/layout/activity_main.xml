@@ -11,15 +11,14 @@
         android:id="@+id/delay_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginTop="100dp"
+        android:layout_margin="10sp"
+        android:layout_marginTop="100sp"
         android:padding="@dimen/cardview_default_elevation"
-        app:cardCornerRadius="10dp"
-        app:contentPaddingBottom="10dp"
-        app:contentPaddingLeft="10dp"
-        app:contentPaddingTop="5dp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="47dp">
+        app:cardCornerRadius="10sp"
+        app:contentPaddingBottom="10sp"
+        app:contentPaddingLeft="10sp"
+        app:contentPaddingTop="5sp"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -97,15 +96,14 @@
         android:id="@+id/seek_bar_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginTop="68dp"
+        android:layout_margin="10sp"
+        android:layout_marginTop="68sp"
         android:padding="@dimen/cardview_default_elevation"
-        app:cardCornerRadius="10dp"
-        app:contentPaddingBottom="10dp"
-        app:contentPaddingLeft="10dp"
-        app:contentPaddingTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/delay_card_view"
-        tools:layout_editor_absoluteX="3dp">
+        app:cardCornerRadius="10sp"
+        app:contentPaddingBottom="10sp"
+        app:contentPaddingLeft="10sp"
+        app:contentPaddingTop="10sp"
+        app:layout_constraintTop_toBottomOf="@id/delay_card_view">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -163,6 +161,17 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/info_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10sp"
+        android:gravity="center"
+        android:text="@string/get_info"
+        android:layout_marginHorizontal="15sp"
+        app:layout_constraintBottom_toTopOf="@id/startButton"
+        app:drawableBottomCompat="@drawable/ic_baseline_info_24" />
 
     <Button
         android:id="@+id/startButton"

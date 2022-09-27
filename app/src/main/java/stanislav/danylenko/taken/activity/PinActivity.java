@@ -44,8 +44,6 @@ public class PinActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pin);
 
-//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE); // todo: need to be fixed some way
-
         this.oldPassword = findViewById(R.id.oldPassword);
         this.newPassword = findViewById(R.id.newPassword);
         this.newPasswordRepeat = findViewById(R.id.newPasswordRepeat);
@@ -55,6 +53,11 @@ public class PinActivity extends AppCompatActivity {
         this.newPasswordRepeatValidation = findViewById(R.id.newPasswordRepeatValidation);
 
         this.backButton = findViewById(R.id.back_btn);
+        this.backButton.setOnClickListener(this::toMainActivity);
+
+        Button successButton = findViewById(R.id.success_btn);
+        successButton.setOnClickListener(this::confirmInput);
+
         this.activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 
         cleanErrors();
@@ -64,8 +67,8 @@ public class PinActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        setAppBarText("Update your PIN");
-        setMainPinViewText("New PIN");
+        setAppBarText(getString(R.string.app_bar_update_pin));
+        setMainPinViewText(getString(R.string.new_pin_view_new_pin));
 
         checkExistingPassword();
         checkServiceRunningPassword();
@@ -123,7 +126,7 @@ public class PinActivity extends AppCompatActivity {
             if (!this.containsError) {
                 AppPreferences.putData(this, AppPreferences.PSSWD, newPassword.getText().toString());
                 if (this.newMode) {
-                    Toast.makeText(this, "Password saved, try to start tracking again!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.password_saved), Toast.LENGTH_LONG).show();
                 }
                 toMainActivity(null);
             }
@@ -183,7 +186,7 @@ public class PinActivity extends AppCompatActivity {
         if (isEmpty(existingPassword)) {
             this.newMode = true;
             hideOldPassword();
-            setAppBarText("Create your PIN");
+            setAppBarText(getString(R.string.app_bar_create_your_pin));
         } else {
             this.newMode = false;
             showOldPassword();
@@ -197,7 +200,7 @@ public class PinActivity extends AppCompatActivity {
             hideOldPassword();
             backButton.setEnabled(false);
             newPasswordValidation.setText(R.string.enter_pin);
-            setAppBarText("Enter your PIN");
+            setAppBarText(getString(R.string.app_bar_enter_your_pin));
             setMainPinViewText(EMPTY_STRING);
         } else {
             this.serviceRunning = false;

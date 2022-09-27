@@ -25,4 +25,10 @@
     <string name="low">low</string>
     <string name="high">high</string>
     <string name="password_not_set_first_start">You haven\'t specified your password, do it before tracking</string>
+    <string name="back">&#160;&#160;&#160;Back&#160;&#160;&#160;</string>
+    <string name="app_bar_update_pin">Update your PIN</string>
+    <string name="new_pin_view_new_pin">New PIN</string>
+    <string name="password_saved">Password saved, try to start tracking again!</string>
+    <string name="app_bar_create_your_pin">Create your PIN</string>
+    <string name="app_bar_enter_your_pin">Enter your PIN</string>
 </resources>

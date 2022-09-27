@@ -165,15 +165,13 @@
             android:backgroundTint="@color/accentRed"
             android:padding="15sp"
             android:textSize="17sp"
-            android:text="   Back   "
-            android:layout_marginRight="5sp"
-            android:onClick="toMainActivity"
+            android:text="@string/back"
+            android:layout_marginEnd="5sp"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/success_btn"
-            tools:ignore="UsingOnClickInXml" />
+            app:layout_constraintRight_toLeftOf="@id/success_btn" />
 
         <Button
             android:id="@+id/success_btn"
@@ -183,11 +181,9 @@
             android:padding="15sp"
             android:textSize="17sp"
             android:text="@string/confirm"
-            android:onClick="confirmInput"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/back_btn"
-            tools:ignore="UsingOnClickInXml" />
+            app:layout_constraintLeft_toRightOf="@id/back_btn"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

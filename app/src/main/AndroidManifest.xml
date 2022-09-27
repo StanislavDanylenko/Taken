@@ -19,7 +19,8 @@
             android:name=".activity.InfoActivity"
             android:screenOrientation="portrait"
             android:exported="false"
-            android:parentActivityName=".activity.MainActivity"/>
+            android:parentActivityName=".activity.MainActivity"
+            android:label="@string/info_activity"/>
         <activity
             android:name=".activity.PinActivity"
             android:screenOrientation="portrait"

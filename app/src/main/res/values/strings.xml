@@ -19,4 +19,5 @@
     <string name="_30_seconds">30 seconds</string>
     <string name="_60_seconds">60 seconds</string>
     <string name="get_info">To get more details click on the next icon above</string>
+    <string name="info_activity">Info about this app</string>
 </resources>

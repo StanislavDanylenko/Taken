@@ -20,4 +20,9 @@
     <string name="_60_seconds">60 seconds</string>
     <string name="get_info">To get more details click on the next icon above</string>
     <string name="info_activity">Info about this app</string>
+    <string name="start_checking_after">Start checking after</string>
+    <string name="sensitivity">Sensitivity</string>
+    <string name="low">low</string>
+    <string name="high">high</string>
+    <string name="password_not_set_first_start">You haven\'t specified your password, do it before tracking</string>
 </resources>

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -30,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private SeekBar seekBar;
     private ActivityManager activityManager;
 
-    private final int SENSITIVITY_MAX_VALUE = 12;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
         this.seekBar = findViewById(R.id.seekBar);
         this.activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+
+        addListeners();
     }
 
     @Override
@@ -48,6 +49,25 @@ public class MainActivity extends AppCompatActivity {
         if (AppUtils.isServiceRunning(activityManager, CheckingService.class)) {
             startPinActivity();
         }
+    }
+
+    private void addListeners() {
+        RadioButton instantly = findViewById(R.id.instantly);
+        RadioButton fivesec = findViewById(R.id.fivesec);
+        RadioButton tensec = findViewById(R.id.tensec);
+        RadioButton twentysec = findViewById(R.id.twentysec);
+        RadioButton thirtySec = findViewById(R.id.thirtySec);
+        RadioButton sixtySec = findViewById(R.id.sixtySec);
+
+        instantly.setOnClickListener(this::onRadioButtonClicked);
+        fivesec.setOnClickListener(this::onRadioButtonClicked);
+        tensec.setOnClickListener(this::onRadioButtonClicked);
+        twentysec.setOnClickListener(this::onRadioButtonClicked);
+        thirtySec.setOnClickListener(this::onRadioButtonClicked);
+        sixtySec.setOnClickListener(this::onRadioButtonClicked);
+
+        Button start = findViewById(R.id.startButton);
+        start.setOnClickListener(this::startChecking);
     }
 
     private void changeInfoIcon() {
@@ -63,14 +83,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void startChecking(View view) {
         if (AppPreferences.isPsswdExists(this)) {
-            SENSITIVITY = SENSITIVITY_MAX_VALUE - this.seekBar.getProgress();
-
+            SENSITIVITY = AppUtils.SENSITIVITY_MAX_VALUE - this.seekBar.getProgress();
             startService();
-            startPinActivity();
         } else {
-            Toast.makeText(this, "You haven't specified your password, do it before tracking", Toast.LENGTH_LONG).show();
-            startPinActivity();
+            Toast.makeText(this, R.string.password_not_set_first_start, Toast.LENGTH_LONG).show();
         }
+        startPinActivity();
     }
 
     private void startService() {

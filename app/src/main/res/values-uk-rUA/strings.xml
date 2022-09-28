@@ -44,4 +44,15 @@
 Слава Україні!
     </string>
     <string name="happy_smile">(щасливий смайл)</string>
+
+    <string name="sensor_not_found">Необхідний датчик не знайдено в вашому смарфоні</string>
+    <string name="attention">Увага!</string>
+    <string name="someone_taken">Хтось взяв ваш сматфон</string>
+    <string name="position_saved">Положення збережено</string>
+    <string name="dont_worry">Не турбуйтеся про ваш смарфон</string>
+    <string name="tracking_stopped">Відслідковування припинено</string>
+    <string name="password_accepted">PIN спішно уведено</string>
+    <string name="channed_description">Канал для повідомлень для користувача</string>
+    <string name="tarcking_state_progress">Відслідковування позиції смартфона</string>
+    <string name="tracking_error">Помилка запуску відслідковування</string>
 </resources>

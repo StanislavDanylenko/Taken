@@ -28,15 +28,19 @@ public class NotificationUtils {
     private NotificationUtils() {}
 
     public static void showWarningNotification(Context context) {
-        showNotification(context, "Attention!", "Someone took your phone", false);
+        showNotification(context, context.getString(R.string.attention), context.getString(R.string.someone_taken), false);
+    }
+
+    public static void showErrorNotification(Context context) {
+        showNotification(context, context.getString(R.string.tracking_error), context.getString(R.string.sensor_not_found), true);
     }
 
     public static void showPositionNotification(Context context) {
-        showNotification(context, "Position saved", "Don't worry about your smartphone", true);
+        showNotification(context, context.getString(R.string.position_saved), context.getString(R.string.dont_worry), true);
     }
 
     public static void showStoppedNotification(Context context) {
-        showNotification(context, "Tracking stopped", "Password successfully entered", true);
+        showNotification(context, context.getString(R.string.tracking_stopped), context.getString(R.string.password_accepted), true);
     }
 
     public static void showProgressNotification(Context context) {
@@ -54,7 +58,7 @@ public class NotificationUtils {
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel mChannel = new NotificationChannel(
                     CHANNEL_ID, CHANNEL_NAME, importance);
-            mChannel.setDescription("Channel for notification of user");
+            mChannel.setDescription(context.getString(R.string.channed_description));
             notificationManager.createNotificationChannel(mChannel);
         }
 
@@ -99,7 +103,7 @@ public class NotificationUtils {
     private static NotificationCompat.Builder getProgressBuilder(Context context) {
         return new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_baseline_sync_24)
-                .setContentTitle("Tracking state of your phone")
+                .setContentTitle(context.getString(R.string.tarcking_state_progress))
                 .setVisibility(NotificationCompat.VISIBILITY_SECRET)
                 .setProgress(0, 0, true)
                 .setPriority(NotificationCompat.PRIORITY_MAX)

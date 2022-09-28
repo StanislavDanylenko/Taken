@@ -43,4 +43,15 @@ If you suddenly find a problem or the application freezes, restart your phone an
 Good luck and happy use!
     </string>
     <string name="happy_smile">(happy smile)</string>
+
+    <string name="sensor_not_found">Needed sensors not found</string>
+    <string name="attention">Attention!</string>
+    <string name="someone_taken">Someone took your phone</string>
+    <string name="position_saved">Position saved</string>
+    <string name="dont_worry">Don\'t worry about your smartphone</string>
+    <string name="tracking_stopped">Tracking stopped</string>
+    <string name="password_accepted">PIN successfully entered</string>
+    <string name="channed_description">Channel for notification of user</string>
+    <string name="tarcking_state_progress">Tracking state of your phone</string>
+    <string name="tracking_error">Tracking start error</string>
 </resources>

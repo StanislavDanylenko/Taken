@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import stanislav.danylenko.taken.R;
 import stanislav.danylenko.taken.utils.AppUtils;
 import stanislav.danylenko.taken.utils.NotificationUtils;
 
@@ -59,7 +60,8 @@ public class CheckingService extends Service implements SensorEventListener {
                 sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
             }
         } else {
-            Toast.makeText(this, "Needed sensors not found", Toast.LENGTH_LONG).show();
+            NotificationUtils.showErrorNotification(context);
+            stopSelf();
         }
     }
 

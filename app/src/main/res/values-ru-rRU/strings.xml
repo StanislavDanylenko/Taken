@@ -43,4 +43,15 @@
 Удачного и счастливого использования!.
     </string>
     <string name="happy_smile">(счастливый смайл)</string>
+
+    <string name="sensor_not_found">Необходимый датчик не найден в вашем смартфоне</string>
+    <string name="attention">Внимание!</string>
+    <string name="someone_taken">Кто-то взял ваш смартфон</string>
+    <string name="position_saved">Положение сохранено</string>
+    <string name="dont_worry">Не волнуйтесь по поводу вашего смартфона</string>
+    <string name="tracking_stopped">Отслеживание остановлено</string>
+    <string name="password_accepted">PIN успешно введен</string>
+    <string name="channed_description">Канал для уведомлений пользователя</string>
+    <string name="tarcking_state_progress">Отслеживание положения смарфона</string>
+    <string name="tracking_error">Ошибка запуска отлеживания</string>
 </resources>

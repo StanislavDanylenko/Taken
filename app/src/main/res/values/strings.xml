@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Taken</string>
+    <string name="app_name" translatable="false">Taken</string>
     <string name="old_password">Old PIN</string>
     <string name="new_password">New PIN</string>
     <string name="new_password_repeat">Repeat New PIN</string>
@@ -19,15 +19,15 @@
     <string name="_30_seconds">30 seconds</string>
     <string name="_60_seconds">60 seconds</string>
     <string name="get_info">To get more details click on the next icon above</string>
-    <string name="start_checking_after">Start checking after</string>
+    <string name="start_checking_after">Start tracking after</string>
     <string name="sensitivity">Sensitivity</string>
     <string name="low">low</string>
     <string name="high">high</string>
-    <string name="password_not_set_first_start">You haven\'t specified your password, do it before tracking</string>
+    <string name="password_not_set_first_start">You haven\'t specified your PIN, do it before tracking</string>
     <string name="back">&#160;&#160;&#160;Back&#160;&#160;&#160;</string>
     <string name="app_bar_update_pin">Update your PIN</string>
     <string name="new_pin_view_new_pin">New PIN</string>
-    <string name="password_saved">Password saved, try to start tracking again!</string>
+    <string name="password_saved">PIN saved, try to start tracking again!</string>
     <string name="app_bar_create_your_pin">Create your PIN</string>
     <string name="app_bar_enter_your_pin">Enter your PIN</string>
     <string name="info_activity">Info about this app</string>

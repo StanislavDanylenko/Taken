@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="old_password">Старий PIN</string>
+    <string name="new_password">Новий PIN</string>
+    <string name="new_password_repeat">Повторіть Новий PIN</string>
+    <string name="fill_in">Заповніть</string>
+    <string name="confirm">Підтвердити</string>
+    <string name="set_value">Будь ласка, вкажіть значення</string>
+    <string name="passwords_equals">PINи мають бути однаковими</string>
+    <string name="wrong_length">Будь ласка, уведіть 4 цифри</string>
+    <string name="incorrect_existing">Некоректний існуючий PIN</string>
+    <string name="incorrect_password">Некоректний PIN</string>
+    <string name="start">почати</string>
+    <string name="enter_pin">Введіть PIN щоб зупинити відслідковування</string>
+    <string name="instantly">Негайно</string>
+    <string name="_5_seconds">5 секунд</string>
+    <string name="_10_seconds">10 секунд</string>
+    <string name="_20_seconds">20 секунд</string>
+    <string name="_30_seconds">30 секунд</string>
+    <string name="_60_seconds">60 секунд</string>
+    <string name="get_info">Щоб отримати більше інформації натисніть на іконку вище</string>
+    <string name="start_checking_after">Почати відслідковування після</string>
+    <string name="sensitivity">Чутливість</string>
+    <string name="low">низька</string>
+    <string name="high">висока</string>
+    <string name="password_not_set_first_start">Ви не вказали ваш PIN, зробіть це перед початком відслідковування</string>
+    <string name="back">&#160;&#160;&#160;&#160;&#160;Назад&#160;&#160;&#160;&#160;&#160;</string>
+    <string name="app_bar_update_pin">Оновити PIN</string>
+    <string name="new_pin_view_new_pin">Створити PIN</string>
+    <string name="password_saved">PIN збережено, спопробуйте почати відслідковування знову!</string>
+    <string name="app_bar_create_your_pin">Створіть ваш PIN</string>
+    <string name="app_bar_enter_your_pin">Введіть ваш PIN</string>
+    <string name="info_activity">Інформація про застосунок</string>
+    <string name="info_activity_text">
+Ця програма дозволяє відстежувати зміну положення вашого смартфона в просторі.\n\n
+При помітці такої поведінки програма починає надсилати повідомлення кожні 2 секунди. Увімкніть повідомлення від програми на вашому смарт-годиннику або смарт-браслеті, щоб повідомлення від програми доходили до вас і виконували свою функцію.\n\n
+При першому використанні вам потрібно буде встановити пін код для зупинки відстеження. Його пізніше також можна змінити в налаштуваннях програми.\n\n
+Ви можете вибрати інтервал часу, після якого почнеться відстеження положення смартфона. Це дозволить вам покласти смартфон у те місце, з якого ви хочете, щоб він не рухався.\n\n
+Ви також можете вказати чутливість, з якою програма розпізнаватиме рух у просторі. При максимальній чутливості буде розпізнано найменший рух. У той час, як з мінімальним, хтось може трохи зрушити ваш смартфон.\n\n
+Програма повинна продовжувати свою роботу при вивантаженні зі списку запущених програм, проте перевірте даний момент перед реальним використанням.\n\n
+Функціонал цієї програми може бути корисним, якщо ви боїтеся, що хтось може взяти ваш смартфон, наприклад, коли ви займаєтеся в спортзалі, або залишили його на столі в офісі та відійшли до сусідньої кімнати. Або, наприклад, якщо ви не хочете, щоб його брали діти без дозволу.\n\n
+Якщо раптом знайдете проблему або програму зависне, перезавантажте телефон і повідомте мені через магазин.\n\n
+Вдалого та щасливого використання!\n\n
+Слава Україні!
+    </string>
+    <string name="happy_smile">(щасливий смайл)</string>
+</resources>

@@ -1,190 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".activity.PinActivity">
-
-    <TextView
-        android:id="@+id/oldPasswordText"
-        android:paddingTop="20sp"
-        android:paddingBottom="5sp"
-        android:textSize="17sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/old_password"
-        android:gravity="center"/>
-
-   <com.chaos.view.PinView
-        android:id="@+id/oldPassword"
-        app:layout_constraintTop_toBottomOf="@id/oldPasswordText"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        style="@style/PinWidget.PinView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:cursorVisible="true"
-        android:inputType="numberPassword"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="@color/text_colors"
-        app:cursorColor="@color/blue"
-        app:lineColor="@color/line_colors"
-        app:cursorWidth="2dp"
-        app:itemCount="4"
-        app:itemHeight="80dp"
-        app:itemRadius="4dp"
-        app:itemSpacing="0dp"
-        app:itemWidth="80dp"
-        app:lineWidth="2dp"
-        app:viewType="rectangle" />
-
-    <TextView
-        android:id="@+id/oldPasswordValidation"
-        app:layout_constraintTop_toBottomOf="@id/oldPassword"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/fill_in"
-        android:textColor="@color/red"
-        android:gravity="center"/>
-
-    <TextView
-        android:id="@+id/newPasswordText"
-        android:paddingTop="10sp"
-        android:paddingBottom="5sp"
-        android:textSize="17sp"
-        app:layout_constraintTop_toBottomOf="@id/oldPasswordValidation"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/new_password"
-        android:gravity="center"/>
-
-    <com.chaos.view.PinView
-        android:id="@+id/newPassword"
-        app:layout_constraintTop_toBottomOf="@id/newPasswordText"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        style="@style/PinWidget.PinView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:cursorVisible="true"
-        android:inputType="numberPassword"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="@color/text_colors"
-        app:cursorColor="@color/blue"
-        app:lineColor="@color/line_colors"
-        app:cursorWidth="2dp"
-        app:itemCount="4"
-        app:itemHeight="80dp"
-        app:itemRadius="4dp"
-        app:itemSpacing="0dp"
-        app:itemWidth="80dp"
-        app:lineWidth="2dp"
-        app:viewType="rectangle" />
-
-    <TextView
-        android:id="@+id/newPasswordValidation"
-        app:layout_constraintTop_toBottomOf="@id/newPassword"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/fill_in"
-        android:textColor="@color/red"
-        android:gravity="center"/>
-
-    <TextView
-        android:id="@+id/newPasswordRepeatText"
-        android:paddingTop="10sp"
-        android:paddingBottom="5sp"
-        android:textSize="17sp"
-        app:layout_constraintTop_toBottomOf="@id/newPasswordValidation"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/new_password_repeat"
-        android:gravity="center"/>
-
-    <com.chaos.view.PinView
-        android:id="@+id/newPasswordRepeat"
-        app:layout_constraintTop_toBottomOf="@id/newPasswordRepeatText"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        style="@style/PinWidget.PinView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:cursorVisible="true"
-        android:inputType="numberPassword"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="@color/text_colors"
-        app:cursorColor="@color/blue"
-        app:lineColor="@color/line_colors"
-        app:cursorWidth="2dp"
-        app:itemCount="4"
-        app:itemHeight="80dp"
-        app:itemRadius="4dp"
-        app:itemSpacing="0dp"
-        app:itemWidth="80dp"
-        app:lineWidth="2dp"
-        app:viewType="rectangle" />
-
-    <TextView
-        android:id="@+id/newPasswordRepeatValidation"
-        app:layout_constraintTop_toBottomOf="@id/newPasswordRepeat"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/fill_in"
-        android:textColor="@color/red"
-        android:gravity="center"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/passwords"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <Button
-            android:id="@+id/back_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/accentRed"
-            android:padding="15sp"
+        <TextView
+            android:id="@+id/oldPasswordText"
+            android:paddingTop="20dp"
+            android:paddingBottom="5dp"
             android:textSize="17sp"
-            android:text="@string/back"
-            android:layout_marginEnd="5sp"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/success_btn" />
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/old_password"
+            android:gravity="center"/>
 
-        <Button
-            android:id="@+id/success_btn"
+        <com.chaos.view.PinView
+            android:id="@+id/oldPassword"
+            app:layout_constraintTop_toBottomOf="@id/oldPasswordText"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            style="@style/PinWidget.PinView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/accentRed"
-            android:padding="15sp"
+            android:cursorVisible="true"
+            android:inputType="numberPassword"
             android:textSize="17sp"
-            android:text="@string/confirm"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textStyle="bold"
+            android:textColor="@color/text_colors"
+            app:cursorColor="@color/blue"
+            app:lineColor="@color/line_colors"
+            app:cursorWidth="2dp"
+            app:itemCount="4"
+            app:itemHeight="80dp"
+            app:itemRadius="4dp"
+            app:itemSpacing="0dp"
+            app:itemWidth="80dp"
+            app:lineWidth="2dp"
+            app:viewType="rectangle" />
+
+        <TextView
+            android:id="@+id/oldPasswordValidation"
+            app:layout_constraintTop_toBottomOf="@id/oldPassword"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/back_btn"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fill_in"
+            android:textColor="@color/red"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/newPasswordText"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"
+            android:textSize="17sp"
+            app:layout_constraintTop_toBottomOf="@id/oldPasswordValidation"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/new_password"
+            android:gravity="center"/>
+
+        <com.chaos.view.PinView
+            android:id="@+id/newPassword"
+            app:layout_constraintTop_toBottomOf="@id/newPasswordText"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            style="@style/PinWidget.PinView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:cursorVisible="true"
+            android:inputType="numberPassword"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_colors"
+            app:cursorColor="@color/blue"
+            app:lineColor="@color/line_colors"
+            app:cursorWidth="2dp"
+            app:itemCount="4"
+            app:itemHeight="80dp"
+            app:itemRadius="4dp"
+            app:itemSpacing="0dp"
+            app:itemWidth="80dp"
+            app:lineWidth="2dp"
+            app:viewType="rectangle" />
+
+        <TextView
+            android:id="@+id/newPasswordValidation"
+            app:layout_constraintTop_toBottomOf="@id/newPassword"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fill_in"
+            android:textColor="@color/red"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/newPasswordRepeatText"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"
+            android:textSize="17sp"
+            app:layout_constraintTop_toBottomOf="@id/newPasswordValidation"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/new_password_repeat"
+            android:gravity="center"/>
+
+        <com.chaos.view.PinView
+            android:id="@+id/newPasswordRepeat"
+            app:layout_constraintTop_toBottomOf="@id/newPasswordRepeatText"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            style="@style/PinWidget.PinView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:cursorVisible="true"
+            android:inputType="numberPassword"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_colors"
+            app:cursorColor="@color/blue"
+            app:lineColor="@color/line_colors"
+            app:cursorWidth="2dp"
+            app:itemCount="4"
+            app:itemHeight="80dp"
+            app:itemRadius="4dp"
+            app:itemSpacing="0dp"
+            app:itemWidth="80dp"
+            app:lineWidth="2dp"
+            app:viewType="rectangle" />
+
+        <TextView
+            android:id="@+id/newPasswordRepeatValidation"
+            app:layout_constraintTop_toBottomOf="@id/newPasswordRepeat"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fill_in"
+            android:textColor="@color/red"
+            android:gravity="center"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/passwords"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <Button
+                android:id="@+id/back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/accentRed"
+                android:padding="15dp"
+                android:textSize="17sp"
+                android:text="@string/back"
+                android:layout_marginEnd="5dp"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/success_btn" />
+
+            <Button
+                android:id="@+id/success_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/accentRed"
+                android:padding="15dp"
+                android:textSize="17sp"
+                android:text="@string/confirm"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/back_btn"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</ScrollView>

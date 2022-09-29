@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -44,9 +46,15 @@ public class PinActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pin);
 
+        int itemWidth = getItemWidth();
+
         this.oldPassword = findViewById(R.id.oldPassword);
         this.newPassword = findViewById(R.id.newPassword);
         this.newPasswordRepeat = findViewById(R.id.newPasswordRepeat);
+
+        configureItemSize(this.oldPassword, itemWidth);
+        configureItemSize(this.newPassword, itemWidth);
+        configureItemSize(this.newPasswordRepeat, itemWidth);
 
         this.oldPasswordValidation = findViewById(R.id.oldPasswordValidation);
         this.newPasswordValidation = findViewById(R.id.newPasswordValidation);
@@ -61,6 +69,21 @@ public class PinActivity extends AppCompatActivity {
         this.activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 
         cleanErrors();
+    }
+
+    private int getItemWidth() {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int screenWidthPx = displayMetrics.widthPixels;
+        int tenPercents = screenWidthPx / 10;
+        int canBeFilled = screenWidthPx - tenPercents * 2;
+        return canBeFilled / 4;
+    }
+
+    private void configureItemSize(PinView view, int itemSize) {
+        if (itemSize > 10) {
+            view.setItemWidth(itemSize);
+            view.setItemHeight(itemSize);
+        }
     }
 
     @Override

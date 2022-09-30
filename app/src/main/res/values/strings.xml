@@ -36,7 +36,8 @@ This application allows you to track the change in the position of your smartpho
 When the application notices this behavior, is starts sending notifications every 2 seconds. Turn on app notifications on your smartwatch or smart bracelet so that app notifications reach you and do their job.\n\n
 The first time you use it, you will need to set a pin code to stop tracking. It can also be changed later in the application settings.\n\n
 You can select the time interval after which tracking of the smartphone\'s position will start. This will allow you to put your smartphone where you want it to be without moving.\n\n
-You can also specify the sensitivity with which the application will recognize movement in space. With maximum sensitivity, the slightest movement will be identified. While with minimal, someone can shift your smartphone a little.\n\n
+You can specify the sensitivity with which the application will recognize movement in space. With maximum sensitivity, the slightest movement will be identified. While with minimal, someone can shift your smartphone a little.\n\n
+You can specify whether to interrupt tracking when unlocking the smartphone screen by selecting the appropriate option on the main screen.\n\n
 The application should continue to work when unloaded from the list of running applications, but check this point before real use.\n\n
 The functionality of this application can be useful if you are afraid that someone might take your smartphone, for example, when you work out at the gym, or left it on the table in the office and went into the next room. Or, for example, if you do not want children to take it without your permission.\n\n
 If you suddenly find a problem or the application freezes, restart your phone and let me know through the store.

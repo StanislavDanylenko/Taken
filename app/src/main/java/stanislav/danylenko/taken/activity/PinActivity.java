@@ -2,10 +2,13 @@ package stanislav.danylenko.taken.activity;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -40,6 +43,16 @@ public class PinActivity extends AppCompatActivity {
 
     private ActivityManager activityManager;
 
+    private BroadcastReceiver messageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int value = intent.getIntExtra(AppUtils.BROADCAST_MESSAGE_PARAM, -1);
+            if (serviceRunning && value == AppUtils.BROADCAST_MESSAGE_SERVICE_STOPPED) {
+                toMainActivity(null);
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +81,13 @@ public class PinActivity extends AppCompatActivity {
         this.activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 
         cleanErrors();
+
+        registerBroadcastMessageReceiver();
+    }
+
+    private void registerBroadcastMessageReceiver() {
+        LocalBroadcastManager.getInstance(this)
+                .registerReceiver(messageReceiver, new IntentFilter(AppUtils.BROADCAST_MESSAGE));
     }
 
     private int getItemWidth() {
@@ -200,7 +220,16 @@ public class PinActivity extends AppCompatActivity {
     }
 
     public void toMainActivity(View view) {
-        onBackPressed();
+        try {
+            onBackPressed();
+        } catch (Exception e) {
+            startMainActivity();
+        }
+    }
+
+    private void startMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     private void checkExistingPassword() {

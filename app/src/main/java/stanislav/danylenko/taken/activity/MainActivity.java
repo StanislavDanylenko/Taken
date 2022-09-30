@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,24 +27,13 @@ import stanislav.danylenko.taken.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static int DELAY_MILLIS = 5_000;
-    public static int SENSITIVITY = 5;
-    public static boolean STOP_ON_SCREEN_UNLOCK = false;
-
-    private SeekBar seekBar;
     private ActivityManager activityManager;
-
-    private static void onCheckBoxClick(View v) {
-        CheckBox checkBox = (CheckBox) v;
-        STOP_ON_SCREEN_UNLOCK = checkBox.isChecked();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.seekBar = findViewById(R.id.seekBar);
         this.activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 
         addListeners();
@@ -58,26 +48,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     private void addListeners() {
-        RadioButton instantly = findViewById(R.id.instantly);
-        RadioButton fivesec = findViewById(R.id.fivesec);
-        RadioButton tensec = findViewById(R.id.tensec);
-        RadioButton twentysec = findViewById(R.id.twentysec);
-        RadioButton thirtySec = findViewById(R.id.thirtySec);
-        RadioButton sixtySec = findViewById(R.id.sixtySec);
-
-        instantly.setOnClickListener(this::onRadioButtonClicked);
-        fivesec.setOnClickListener(this::onRadioButtonClicked);
-        tensec.setOnClickListener(this::onRadioButtonClicked);
-        twentysec.setOnClickListener(this::onRadioButtonClicked);
-        thirtySec.setOnClickListener(this::onRadioButtonClicked);
-        sixtySec.setOnClickListener(this::onRadioButtonClicked);
-
         Button start = findViewById(R.id.startButton);
         start.setOnClickListener(this::startChecking);
-
-        CheckBox stopOnUnlockCheckbox = findViewById(R.id.stop_on_unlock_chkbx);
-        stopOnUnlockCheckbox.setOnClickListener(MainActivity::onCheckBoxClick);
     }
 
     private void changeInfoIcon() {
@@ -93,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void startChecking(View view) {
         if (AppPreferences.isPsswdExists(this)) {
-            SENSITIVITY = AppUtils.SENSITIVITY_MAX_VALUE - this.seekBar.getProgress();
             startService();
         } else {
             Toast.makeText(this, R.string.password_not_set_first_start, Toast.LENGTH_LONG).show();
@@ -104,42 +77,36 @@ public class MainActivity extends AppCompatActivity {
     private void startService() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(new Intent(this, CheckingService.class)
-                    .putExtra(AppUtils.DELAY, DELAY_MILLIS)
-                    .putExtra(AppUtils.SENSITIVITY, SENSITIVITY)
-                    .putExtra(AppUtils.STOP_ON_UNLOCK, STOP_ON_SCREEN_UNLOCK));
+                    .putExtra(AppUtils.DELAY, getSelectedDelay())
+                    .putExtra(AppUtils.SENSITIVITY, getSensitivity())
+                    .putExtra(AppUtils.STOP_ON_UNLOCK, isStopOnUnlockCheckBoxChecked()));
         } else {
             startService(new Intent(this, CheckingService.class)
-                    .putExtra(AppUtils.DELAY, DELAY_MILLIS)
-                    .putExtra(AppUtils.SENSITIVITY, SENSITIVITY)
-                    .putExtra(AppUtils.STOP_ON_UNLOCK, STOP_ON_SCREEN_UNLOCK));
+                    .putExtra(AppUtils.DELAY, getSelectedDelay())
+                    .putExtra(AppUtils.SENSITIVITY, getSensitivity())
+                    .putExtra(AppUtils.STOP_ON_UNLOCK, isStopOnUnlockCheckBoxChecked()));
         }
     }
 
-    @SuppressLint("NonConstantResourceId")
-    public void onRadioButtonClicked(View view) {
-        boolean checked = ((RadioButton) view).isChecked();
-        if (checked) {
-            switch (view.getId()) {
-                case R.id.instantly:
-                    DELAY_MILLIS = (int) (0.5 * 1000);
-                    break;
-                case R.id.fivesec:
-                    DELAY_MILLIS = 5 * 1000;
-                    break;
-                case R.id.tensec:
-                    DELAY_MILLIS = 10 * 1000;
-                    break;
-                case R.id.twentysec:
-                    DELAY_MILLIS = 20 * 1000;
-                    break;
-                case R.id.thirtySec:
-                    DELAY_MILLIS = 30 * 1000;
-                    break;
-                case R.id.sixtySec:
-                    DELAY_MILLIS = 60 * 1000;
-                    break;
-            }
-        }
+    public int getSelectedDelay() {
+        RadioGroup radioGroup = findViewById(R.id.radios);
+        int checkedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+
+        RadioButton radioButton = findViewById(checkedRadioButtonId);
+        String tag = (String) radioButton.getTag();
+        double value = Double.parseDouble(tag);
+
+        return (int) (value * 1000);
+    }
+
+    private boolean isStopOnUnlockCheckBoxChecked() {
+        CheckBox checkBox = findViewById(R.id.stop_on_unlock_chkbx);
+        return checkBox.isChecked();
+    }
+
+    private int getSensitivity() {
+        SeekBar seekBar = findViewById(R.id.seekBar);
+        return AppUtils.SENSITIVITY_MAX_VALUE - seekBar.getProgress();
     }
 
     public void startPinActivity() {

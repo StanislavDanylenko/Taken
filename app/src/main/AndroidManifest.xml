@@ -15,6 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Taken"
         tools:targetApi="31">
+        <service
+            android:name=".service.CheckingService"
+            android:enabled="true"
+            android:exported="true" />
         <activity
             android:name=".activity.InfoActivity"
             android:screenOrientation="portrait"
@@ -26,17 +30,10 @@
             android:screenOrientation="portrait"
             android:exported="false"
             android:parentActivityName=".activity.MainActivity" />
-
-        <service
-            android:name=".service.CheckingService"
-            android:enabled="true"
-            android:exported="true" />
-
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
-            android:exported="true"
-            android:parentActivityName=".activity.MainActivity">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -43,6 +43,10 @@ public class NotificationUtils {
         showNotification(context, context.getString(R.string.tracking_stopped), context.getString(R.string.password_accepted), true);
     }
 
+    public static void showUnlockNotification(Context context) {
+        showNotification(context, context.getString(R.string.tracking_stopped), context.getString(R.string.screen_unlocked), true);
+    }
+
     public static void showProgressNotification(Context context) {
         showNotification(context, null, null, false);
     }

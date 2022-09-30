@@ -51,7 +51,9 @@ Good luck and happy use!
     <string name="dont_worry">Don\'t worry about your smartphone</string>
     <string name="tracking_stopped">Tracking stopped</string>
     <string name="password_accepted">PIN successfully entered</string>
+    <string name="screen_unlocked">Screen was unlocked</string>
     <string name="channed_description">Channel for notification of user</string>
     <string name="tarcking_state_progress">Tracking state of your phone</string>
     <string name="tracking_error">Tracking start error</string>
+    <string name="stop_tracking_on_unlock">Stop tracking when screen is unlocked</string>
 </resources>

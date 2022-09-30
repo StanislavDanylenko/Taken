@@ -51,7 +51,9 @@
     <string name="dont_worry">Не волнуйтесь по поводу вашего смартфона</string>
     <string name="tracking_stopped">Отслеживание остановлено</string>
     <string name="password_accepted">PIN успешно введен</string>
+    <string name="screen_unlocked">Экран был разблокирован</string>
     <string name="channed_description">Канал для уведомлений пользователя</string>
     <string name="tarcking_state_progress">Отслеживание положения смарфона</string>
     <string name="tracking_error">Ошибка запуска отлеживания</string>
+    <string name="stop_tracking_on_unlock">Остановить отслеживание при разблокировке экрана</string>
 </resources>

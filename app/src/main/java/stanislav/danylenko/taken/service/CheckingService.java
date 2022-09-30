@@ -1,8 +1,10 @@
 package stanislav.danylenko.taken.service;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -10,6 +12,7 @@ import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -35,6 +38,7 @@ public class CheckingService extends Service implements SensorEventListener {
 
     private long startTimestamp = Long.MAX_VALUE;
     private boolean started = false;
+    private boolean unlocked = false;
 
     private final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
 
@@ -50,6 +54,20 @@ public class CheckingService extends Service implements SensorEventListener {
         this.context = this;
 
         registerSensorListener();
+    }
+
+    private void addOnUnlockScreenListener() {
+        IntentFilter filter = new IntentFilter(Intent.ACTION_USER_PRESENT);
+        BroadcastReceiver actionReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
+                    unlocked = true;
+                    stopSelf();
+                }
+            }
+        };
+        registerReceiver(actionReceiver, filter);
     }
 
     private void registerSensorListener() {
@@ -69,6 +87,11 @@ public class CheckingService extends Service implements SensorEventListener {
     public int onStartCommand(Intent intent, int flags, int startId) {
         this.delayMillis = intent.getIntExtra(AppUtils.DELAY, AppUtils.DELAY_MILLIS_DEFAULT);
         this.sensitivity = intent.getIntExtra(AppUtils.SENSITIVITY, AppUtils.DEFAULT_SENSITIVITY);
+        boolean stopOnUnlockScreen = intent.getBooleanExtra(AppUtils.STOP_ON_UNLOCK, false);
+
+        if (stopOnUnlockScreen) {
+            addOnUnlockScreenListener();
+        }
 
         showForegroundNotification();
 
@@ -121,7 +144,11 @@ public class CheckingService extends Service implements SensorEventListener {
         executor.shutdown();
         executor.shutdownNow();
         NotificationUtils.cancelAll(this);
-        NotificationUtils.showStoppedNotification(context);
+        if (unlocked) {
+            NotificationUtils.showUnlockNotification(context);
+        } else {
+            NotificationUtils.showStoppedNotification(context);
+        }
     }
 
     @Override

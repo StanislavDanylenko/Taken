@@ -8,6 +8,7 @@ public final class AppUtils {
 
     public static final String DELAY = "delay";
     public static final String SENSITIVITY = "sensitivity";
+    public static final String STOP_ON_UNLOCK = "stop_on_unlock";
 
     public static final int DELAY_MILLIS_DEFAULT = 5_000;
     public static final int DEFAULT_SENSITIVITY = 5;

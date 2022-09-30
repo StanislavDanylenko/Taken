@@ -52,7 +52,9 @@
     <string name="dont_worry">Не турбуйтеся про ваш смарфон</string>
     <string name="tracking_stopped">Відслідковування припинено</string>
     <string name="password_accepted">PIN спішно уведено</string>
+    <string name="screen_unlocked">Екран було розблоковано</string>
     <string name="channed_description">Канал для повідомлень для користувача</string>
     <string name="tarcking_state_progress">Відслідковування позиції смартфона</string>
     <string name="tracking_error">Помилка запуску відслідковування</string>
+    <string name="stop_tracking_on_unlock">Зупинити відслідковування при розблокуванні екрану</string>
 </resources>

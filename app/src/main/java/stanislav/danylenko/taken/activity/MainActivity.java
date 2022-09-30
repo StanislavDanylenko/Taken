@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -27,9 +28,15 @@ public class MainActivity extends AppCompatActivity {
 
     public static int DELAY_MILLIS = 5_000;
     public static int SENSITIVITY = 5;
+    public static boolean STOP_ON_SCREEN_UNLOCK = false;
 
     private SeekBar seekBar;
     private ActivityManager activityManager;
+
+    private static void onCheckBoxClick(View v) {
+        CheckBox checkBox = (CheckBox) v;
+        STOP_ON_SCREEN_UNLOCK = checkBox.isChecked();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
 
         Button start = findViewById(R.id.startButton);
         start.setOnClickListener(this::startChecking);
+
+        CheckBox stopOnUnlockCheckbox = findViewById(R.id.stop_on_unlock_chkbx);
+        stopOnUnlockCheckbox.setOnClickListener(MainActivity::onCheckBoxClick);
     }
 
     private void changeInfoIcon() {
@@ -95,11 +105,13 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(new Intent(this, CheckingService.class)
                     .putExtra(AppUtils.DELAY, DELAY_MILLIS)
-                    .putExtra(AppUtils.SENSITIVITY, SENSITIVITY));
+                    .putExtra(AppUtils.SENSITIVITY, SENSITIVITY)
+                    .putExtra(AppUtils.STOP_ON_UNLOCK, STOP_ON_SCREEN_UNLOCK));
         } else {
             startService(new Intent(this, CheckingService.class)
                     .putExtra(AppUtils.DELAY, DELAY_MILLIS)
-                    .putExtra(AppUtils.SENSITIVITY, SENSITIVITY));
+                    .putExtra(AppUtils.SENSITIVITY, SENSITIVITY)
+                    .putExtra(AppUtils.STOP_ON_UNLOCK, STOP_ON_SCREEN_UNLOCK));
         }
     }
 

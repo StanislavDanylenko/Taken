@@ -166,7 +166,7 @@ public class PinActivity extends AppCompatActivity {
             validateNewPasswordsTheSame();
 
             if (!this.containsError) {
-                AppPreferences.putData(this, AppPreferences.PSSWD, newPassword.getText().toString());
+                AppPreferences.putStringData(this, AppPreferences.PSSWD, newPassword.getText().toString());
                 if (this.newMode) {
                     Toast.makeText(this, getString(R.string.password_saved), Toast.LENGTH_LONG).show();
                 }
@@ -200,7 +200,7 @@ public class PinActivity extends AppCompatActivity {
     }
 
     private void validateOldTheSame() {
-        String old = AppPreferences.getData(this, AppPreferences.PSSWD);
+        String old = AppPreferences.getStringData(this, AppPreferences.PSSWD);
         String input = oldPassword.getText().toString();
 
         if (!old.equals(input)) {
@@ -210,7 +210,7 @@ public class PinActivity extends AppCompatActivity {
     }
 
     private void validateCurrentTheSame() {
-        String pass = AppPreferences.getData(this, AppPreferences.PSSWD);
+        String pass = AppPreferences.getStringData(this, AppPreferences.PSSWD);
         String input = newPassword.getText().toString();
 
         if (!pass.equals(input)) {
@@ -233,7 +233,7 @@ public class PinActivity extends AppCompatActivity {
     }
 
     private void checkExistingPassword() {
-        String existingPassword = AppPreferences.getData(this, AppPreferences.PSSWD);
+        String existingPassword = AppPreferences.getStringData(this, AppPreferences.PSSWD);
         if (isEmpty(existingPassword)) {
             this.newMode = true;
             hideOldPassword();

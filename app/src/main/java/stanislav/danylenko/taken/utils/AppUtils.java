@@ -2,6 +2,9 @@ package stanislav.danylenko.taken.utils;
 
 import android.app.ActivityManager;
 
+import java.util.Arrays;
+import java.util.List;
+
 public final class AppUtils {
 
     private AppUtils() {}
@@ -20,6 +23,18 @@ public final class AppUtils {
     public static final int SENSITIVITY_MAX_VALUE = 11;
 
     public static final int ONE_SECOND_MILLIS = 1000;
+
+    public static final String S_TRACKING_STARTED = "S_TRACKING_STARTED";
+    public static final String S_START_TIMESTAMP = "S_START_TIMESTAMP";
+    public static final String S_CANCELLED = "S_CANCELLED";
+    public static final String S_TAKEN = "S_TAKEN";
+    public static final String S_START_VALUE_X = "S_START_VALUE_X";
+    public static final String S_START_VALUE_Y = "S_START_VALUE_Y";
+    public static final String S_START_VALUE_Z = "S_START_VALUE_Z";
+
+    public static final List<String> SERVICE_PREFS_LIST = Arrays.asList(
+            S_TRACKING_STARTED, S_START_TIMESTAMP, S_CANCELLED, S_TAKEN,
+            S_START_VALUE_X, S_START_VALUE_Y, S_START_VALUE_Z);
 
     public static boolean isServiceRunning(ActivityManager manager, Class<?> serviceClass) {
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {

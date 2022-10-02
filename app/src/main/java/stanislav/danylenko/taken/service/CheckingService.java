@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 import stanislav.danylenko.taken.utils.AppUtils;
 import stanislav.danylenko.taken.utils.NotificationUtils;
+import stanislav.danylenko.taken.utils.ServiceUtils;
 
 public class CheckingService extends Service implements SensorEventListener {
 
@@ -40,7 +41,7 @@ public class CheckingService extends Service implements SensorEventListener {
 
     private final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
 
-    private final BroadcastReceiver actionReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver screenUnlockActionReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
@@ -65,17 +66,26 @@ public class CheckingService extends Service implements SensorEventListener {
         registerSensorListener();
     }
 
-    private void sendServiceStoppedMessage() {
-        Intent intent = new Intent(AppUtils.BROADCAST_MESSAGE);
-        intent.putExtra(AppUtils.BROADCAST_MESSAGE_PARAM, AppUtils.BROADCAST_MESSAGE_SERVICE_STOPPED);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        NotificationUtils.cancelAll(this.context);
+
+        if (flags == 0) {
+            startInNewMode(intent);
+        } else {
+            startInRetryMode(intent);
+        }
+
+        return Service.START_REDELIVER_INTENT;
     }
 
-    private void addOnUnlockScreenListener() {
-        IntentFilter filter = new IntentFilter(Intent.ACTION_USER_PRESENT);
-        registerReceiver(actionReceiver, filter);
-        this.receiverRegistered = true;
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopChecking();
+        ServiceUtils.cleanAllServiceData(this.context);
     }
+
 
     private void registerSensorListener() {
         SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -85,13 +95,21 @@ public class CheckingService extends Service implements SensorEventListener {
                 sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
             }
         } else {
-            NotificationUtils.showErrorNotification(context);
+            NotificationUtils.showErrorNotification(this.context);
             stopSelf();
         }
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    private void sendServiceStoppedMessage() {
+        Intent intent = new Intent(AppUtils.BROADCAST_MESSAGE);
+        intent.putExtra(AppUtils.BROADCAST_MESSAGE_PARAM, AppUtils.BROADCAST_MESSAGE_SERVICE_STOPPED);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
+    private void startInNewMode(Intent intent) {
+        ServiceUtils.cleanAllServiceData(this.context);
+        ServiceUtils.saveStartTimestamp(this.context);
+
         int delayMillis = intent.getIntExtra(AppUtils.DELAY, AppUtils.DELAY_MILLIS_DEFAULT);
         this.sensitivity = intent.getIntExtra(AppUtils.SENSITIVITY, AppUtils.DEFAULT_SENSITIVITY);
         boolean stopOnUnlockScreen = intent.getBooleanExtra(AppUtils.STOP_ON_UNLOCK, false);
@@ -102,93 +120,164 @@ public class CheckingService extends Service implements SensorEventListener {
 
         showForegroundNotification();
 
-        final Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            if (!cancelled) {
-                startValues = currentValues.clone();
-                startTimestamp = System.currentTimeMillis();
-                started = true;
-                NotificationUtils.showPositionNotification(context);
-            }
-        }, delayMillis);
+        Handler handler = new Handler();
+        handler.postDelayed(this::delayedStartExecutionTask, delayMillis);
+    }
 
-        return super.onStartCommand(intent, flags, startId);
+    private void startInRetryMode(Intent intent) {
+        this.sensitivity = intent.getIntExtra(AppUtils.SENSITIVITY, AppUtils.DEFAULT_SENSITIVITY);
+
+        boolean wasTaken = ServiceUtils.loadIsTaken(this.context);
+        boolean wasCancelled = ServiceUtils.loadIsCancelled(this.context);
+
+        if (wasCancelled) {
+            stopSelf();
+        }
+
+        if (wasTaken) {
+            showTakenNotification();
+            return;
+        }
+
+        boolean stopOnUnlockScreen = intent.getBooleanExtra(AppUtils.STOP_ON_UNLOCK, false);
+        if (stopOnUnlockScreen) {
+            addOnUnlockScreenListener();
+        }
+
+        showForegroundNotification();
+
+        boolean wasStarted = ServiceUtils.loadTrackingStarted(this.context);
+
+        if (!wasStarted) {
+            int delayMillis = intent.getIntExtra(AppUtils.DELAY, AppUtils.DELAY_MILLIS_DEFAULT);
+            long delayMillisNew = getNewDelayMillis(delayMillis);
+
+            Handler handler = new Handler();
+            handler.postDelayed(this::delayedStartExecutionTask, delayMillisNew);
+        } else {
+            float[] wasStartValues = ServiceUtils.loadStartPosition(context);
+            if (wasStartValues != null) {
+                this.startValues = wasStartValues;
+            }
+
+            if (!this.cancelled) {
+                if (this.startValues == null && this.currentValues != null) {
+                    this.startValues = this.currentValues.clone();
+                    ServiceUtils.saveStartPosition(this.context, this.startValues);
+                }
+                this.startTimestamp = System.currentTimeMillis();
+                this.started = true;
+
+                NotificationUtils.showPositionNotification(this.context);
+            }
+        }
+    }
+
+    private void addOnUnlockScreenListener() {
+        IntentFilter filter = new IntentFilter(Intent.ACTION_USER_PRESENT);
+        registerReceiver(this.screenUnlockActionReceiver, filter);
+        this.receiverRegistered = true;
     }
 
     private void showForegroundNotification() {
+        // todo: modify it
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForeground(
                     NotificationUtils.getRandomId(),
                     NotificationUtils.getProgressNotification(context));
         } else {
-            NotificationUtils.showProgressNotification(this);
+            NotificationUtils.showProgressNotification(getApplicationContext());
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        stopChecking();
-    }
-
-    private boolean taken() {
-        float[] cloneOfCurrentValues = currentValues.clone();
-        for (int i = 0; i < startValues.length; i++) {
-            float startValue = startValues[i];
-            if (Math.abs(startValue - cloneOfCurrentValues[i]) > sensitivity) {
-                return true;
+    private void delayedStartExecutionTask() {
+        if (!this.cancelled) {
+            if (this.currentValues != null) {
+                this.startValues = this.currentValues.clone();
+                ServiceUtils.saveStartPosition(this.context, this.startValues);
             }
+            this.startTimestamp = System.currentTimeMillis();
+            this.started = true;
+            ServiceUtils.saveTrackingStarted(this.context, true);
+
+            NotificationUtils.showPositionNotification(this.context);
         }
-        return false;
     }
 
-    public void stopChecking() {
-        startValues = null;
-        startTimestamp = Long.MAX_VALUE;
-        started = false;
-        taken = false;
-        cancelled = true;
-        executor.shutdown();
-        executor.shutdownNow();
-        NotificationUtils.cancelAll(this);
+    private long getNewDelayMillis(int delayMillis) {
+        long wasStartTimestamp = ServiceUtils.loadStartTimestamp(this.context);
+        long currentTimeMillis = System.currentTimeMillis();
 
-        if (unlocked) {
-            NotificationUtils.showUnlockNotification(context);
-        } else {
-            NotificationUtils.showStoppedNotification(context);
-        }
-
-        if (receiverRegistered) {
-            unregisterReceiver(actionReceiver);
-        }
+        return delayMillis - (currentTimeMillis - wasStartTimestamp);
     }
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        currentValues = sensorEvent.values;
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 
-        if (!taken && !cancelled) {
-            long currentTimeMillis = System.currentTimeMillis();
-            long diff = currentTimeMillis - startTimestamp;
+            this.currentValues = sensorEvent.values;
 
-            if (started && diff > AppUtils.ONE_SECOND_MILLIS) {
-                if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            if (!this.taken && !this.cancelled) {
+                long currentTimeMillis = System.currentTimeMillis();
+                long diff = currentTimeMillis - this.startTimestamp;
+
+                if (this.started && diff > AppUtils.ONE_SECOND_MILLIS) {
+                    if (this.startValues == null) {
+                        this.startValues = this.currentValues.clone();
+                        ServiceUtils.saveStartPosition(this.context, this.startValues);
+                    }
                     if (taken()) {
-                        taken = true;
-                        NotificationUtils.cancelAll(this);
-                        executor.scheduleAtFixedRate(() -> {
-                            NotificationUtils.cancelAll(context);
-                            NotificationUtils.showWarningNotification(context);
-                        }, 0, 2, TimeUnit.SECONDS);
+                        showTakenNotification();
                     } else {
-                        startTimestamp = currentTimeMillis;
+                        this.startTimestamp = currentTimeMillis;
                     }
                 }
             }
         }
     }
 
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
+    private boolean taken() {
+        float[] cloneOfCurrentValues = this.currentValues.clone();
+        for (int i = 0; i < this.startValues.length; i++) {
+            float startValue = this.startValues[i];
+            if (Math.abs(startValue - cloneOfCurrentValues[i]) > this.sensitivity) {
+                return true;
+            }
+        }
+        return false;
     }
+
+    private void stopChecking() {
+        this.cancelled = true;
+        ServiceUtils.saveIsCancelled(context, true);
+        this.startValues = null;
+        this.startTimestamp = Long.MAX_VALUE;
+        this.started = false;
+        this.taken = false;
+        this.executor.shutdown();
+        this.executor.shutdownNow();
+        NotificationUtils.cancelAll(this);
+
+        if (this.unlocked) {
+            NotificationUtils.showUnlockNotification(this.context);
+        } else {
+            NotificationUtils.showStoppedNotification(this.context);
+        }
+
+        if (this.receiverRegistered) {
+            unregisterReceiver(this.screenUnlockActionReceiver);
+        }
+    }
+
+    private void showTakenNotification() {
+        this.taken = true;
+        ServiceUtils.saveIsTaken(this.context, true);
+        this.executor.scheduleAtFixedRate(() -> {
+            NotificationUtils.cancelAll(this.context);
+            NotificationUtils.showWarningNotification(this.context);
+        }, 0, 2, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {}
 }

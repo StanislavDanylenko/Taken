@@ -180,14 +180,9 @@ public class CheckingService extends Service implements SensorEventListener {
     }
 
     private void showForegroundNotification() {
-        // todo: modify it
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForeground(
-                    NotificationUtils.getRandomId(),
-                    NotificationUtils.getProgressNotification(context));
-        } else {
-            NotificationUtils.showProgressNotification(getApplicationContext());
-        }
+        startForeground(
+                NotificationUtils.getRandomId(),
+                NotificationUtils.getProgressNotification(context));
     }
 
     private void delayedStartExecutionTask() {

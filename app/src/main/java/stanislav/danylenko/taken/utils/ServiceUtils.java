@@ -7,23 +7,23 @@ public class ServiceUtils {
 
     public static void readAllPrefs(Context context) {
         boolean hTaken = AppPreferences.getBooleanData(context, AppUtils.S_TAKEN);
-        Log.w("MY INFO", "S_TAKEN = " + hTaken);
+        Log.w("TAKEN INFO", "S_TAKEN = " + hTaken);
 
         boolean hCancelled = AppPreferences.getBooleanData(context, AppUtils.S_CANCELLED);
-        Log.w("MY INFO", "S_CANCELLED = " + hCancelled);
+        Log.w("TAKEN INFO", "S_CANCELLED = " + hCancelled);
 
         boolean hStarted = AppPreferences.getBooleanData(context, AppUtils.S_TRACKING_STARTED);
-        Log.w("MY INFO", "S_TRACKING_STARTED = " + hStarted);
+        Log.w("TAKEN INFO", "S_TRACKING_STARTED = " + hStarted);
 
         long hStartTimestamp = AppPreferences.getLongData(context, AppUtils.S_START_TIMESTAMP);
-        Log.w("MY INFO", "S_START_TIMESTAMP = " + hStartTimestamp);
+        Log.w("TAKEN INFO", "S_START_TIMESTAMP = " + hStartTimestamp);
 
         float hx = AppPreferences.getFloatData(context, AppUtils.S_START_VALUE_X);
         float hy = AppPreferences.getFloatData(context, AppUtils.S_START_VALUE_Y);
         float hz = AppPreferences.getFloatData(context, AppUtils.S_START_VALUE_Z);
-        Log.w("MY INFO", "S_START_VALUE_X = " + hx);
-        Log.w("MY INFO", "S_START_VALUE_Y = " + hy);
-        Log.w("MY INFO", "S_START_VALUE_Z = " + hz);
+        Log.w("TAKEN INFO", "S_START_VALUE_X = " + hx);
+        Log.w("TAKEN INFO", "S_START_VALUE_Y = " + hy);
+        Log.w("TAKEN INFO", "S_START_VALUE_Z = " + hz);
     }
 
 

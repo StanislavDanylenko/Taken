@@ -99,14 +99,14 @@ public class MainActivity extends AppCompatActivity {
         return (int) (value * 1000);
     }
 
-    private boolean isStopOnUnlockCheckBoxChecked() {
-        CheckBox checkBox = findViewById(R.id.stop_on_unlock_chkbx);
-        return checkBox.isChecked();
-    }
-
     private int getSensitivity() {
         SeekBar seekBar = findViewById(R.id.seekBar);
         return AppUtils.SENSITIVITY_MAX_VALUE - seekBar.getProgress();
+    }
+
+    private boolean isStopOnUnlockCheckBoxChecked() {
+        CheckBox checkBox = findViewById(R.id.stop_on_unlock_chkbx);
+        return checkBox.isChecked();
     }
 
     public void startPinActivity() {

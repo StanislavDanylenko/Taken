@@ -63,10 +63,6 @@ public class AppPreferences {
         return data != null && !"".equals(data);
     }
 
-    private static SharedPreferences getSharedPreferences(Context context) {
-        return context.getSharedPreferences(STORAGE_NAME, Context.MODE_PRIVATE);
-    }
-
     public static void cleanAllDataByKeys(Context context, List<String> keys) {
         SharedPreferences sharedPreferences = getSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -74,5 +70,10 @@ public class AppPreferences {
             editor.remove(key);
         }
         editor.apply();
+    }
+
+
+    private static SharedPreferences getSharedPreferences(Context context) {
+        return context.getSharedPreferences(STORAGE_NAME, Context.MODE_PRIVATE);
     }
 }

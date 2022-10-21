@@ -43,7 +43,7 @@ public class PinActivity extends AppCompatActivity {
 
     private ActivityManager activityManager;
 
-    private BroadcastReceiver messageReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver messageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             int value = intent.getIntExtra(AppUtils.BROADCAST_MESSAGE_PARAM, -1);

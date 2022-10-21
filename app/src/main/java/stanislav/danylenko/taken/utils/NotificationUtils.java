@@ -18,7 +18,7 @@ import java.util.Random;
 import stanislav.danylenko.taken.R;
 import stanislav.danylenko.taken.activity.MainActivity;
 
-public class NotificationUtils {
+public final class NotificationUtils {
 
     public static final String CHANNEL_ID = "TakenNotificationChannel";
     public static final String CHANNEL_NAME = "TakenNotificationChannel";
@@ -45,10 +45,6 @@ public class NotificationUtils {
 
     public static void showUnlockNotification(Context context) {
         showNotification(context, context.getString(R.string.tracking_stopped), context.getString(R.string.screen_unlocked), true);
-    }
-
-    public static void showProgressNotification(Context context) {
-        showNotification(context, null, null, false);
     }
 
     public static Notification getProgressNotification(Context context) {

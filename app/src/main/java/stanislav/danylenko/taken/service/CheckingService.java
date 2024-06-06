@@ -267,7 +267,7 @@ public class CheckingService extends Service implements SensorEventListener {
     private void showTakenNotification() {
         this.taken = true;
         ServiceUtils.saveIsTaken(this.context, true);
-        this.executor.scheduleAtFixedRate(() -> {
+        this.executor.scheduleWithFixedDelay(() -> {
             NotificationUtils.cancelAll(this.context);
             NotificationUtils.showWarningNotification(this.context);
         }, 0, 2, TimeUnit.SECONDS);

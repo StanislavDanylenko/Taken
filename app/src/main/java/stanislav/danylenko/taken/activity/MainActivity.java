@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startChecking(View view) {
-        if (AppPreferences.isPsswdExists(this)) {
+        if (AppPreferences.isPasswordExists(this)) {
             startService();
         } else {
             Toast.makeText(this, R.string.password_not_set_first_start, Toast.LENGTH_LONG).show();

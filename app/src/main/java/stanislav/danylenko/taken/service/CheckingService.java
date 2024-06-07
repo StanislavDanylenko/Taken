@@ -17,7 +17,6 @@ import android.os.Handler;
 import android.os.IBinder;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.concurrent.ScheduledThreadPoolExecutor;

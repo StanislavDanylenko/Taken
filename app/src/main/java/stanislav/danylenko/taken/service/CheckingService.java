@@ -1,5 +1,8 @@
 package stanislav.danylenko.taken.service;
 
+import static android.Manifest.permission.FOREGROUND_SERVICE_SPECIAL_USE;
+import static android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE;
+
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,6 +17,7 @@ import android.os.Handler;
 import android.os.IBinder;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -44,7 +48,7 @@ public class CheckingService extends Service implements SensorEventListener {
     private final BroadcastReceiver screenUnlockActionReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
+            if (Intent.ACTION_USER_PRESENT.equals(intent.getAction())) {
                 unlocked = true;
                 sendServiceStoppedMessage();
                 stopSelf();
@@ -180,9 +184,18 @@ public class CheckingService extends Service implements SensorEventListener {
     }
 
     private void showForegroundNotification() {
-        startForeground(
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            startForeground(
                 NotificationUtils.getRandomId(),
-                NotificationUtils.getProgressNotification(context));
+                NotificationUtils.getProgressNotification(context),
+                FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+            );
+        } else {
+            startForeground(
+                NotificationUtils.getRandomId(),
+                NotificationUtils.getProgressNotification(context)
+            );
+        }
     }
 
     private void delayedStartExecutionTask() {

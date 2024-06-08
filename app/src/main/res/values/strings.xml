@@ -57,4 +57,5 @@ Good luck and happy use!
     <string name="tarcking_state_progress">Tracking state of your phone</string>
     <string name="tracking_error">Tracking start error</string>
     <string name="stop_tracking_on_unlock">Stop tracking when screen is unlocked</string>
+    <string name="permission_error">Please allow notifications for Taken in the Settings of your device</string>
 </resources>

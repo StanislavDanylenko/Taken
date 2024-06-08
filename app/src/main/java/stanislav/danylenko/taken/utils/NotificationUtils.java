@@ -28,30 +28,30 @@ public final class NotificationUtils {
     private NotificationUtils() {}
 
     public static void showWarningNotification(Context context) {
-        showNotification(context, context.getString(R.string.attention), context.getString(R.string.someone_taken), false);
+        showNotification(context, context.getString(R.string.attention), context.getString(R.string.someone_taken));
     }
 
     public static void showErrorNotification(Context context) {
-        showNotification(context, context.getString(R.string.tracking_error), context.getString(R.string.sensor_not_found), true);
+        showNotification(context, context.getString(R.string.tracking_error), context.getString(R.string.sensor_not_found));
     }
 
     public static void showPositionNotification(Context context) {
-        showNotification(context, context.getString(R.string.position_saved), context.getString(R.string.dont_worry), true);
+        showNotification(context, context.getString(R.string.position_saved), context.getString(R.string.dont_worry));
     }
 
     public static void showStoppedNotification(Context context) {
-        showNotification(context, context.getString(R.string.tracking_stopped), context.getString(R.string.password_accepted), true);
+        showNotification(context, context.getString(R.string.tracking_stopped), context.getString(R.string.password_accepted));
     }
 
     public static void showUnlockNotification(Context context) {
-        showNotification(context, context.getString(R.string.tracking_stopped), context.getString(R.string.screen_unlocked), true);
+        showNotification(context, context.getString(R.string.tracking_stopped), context.getString(R.string.screen_unlocked));
     }
 
     public static Notification getProgressNotification(Context context) {
-        return buildNotification(context, null, null, false);
+        return buildNotification(context, null, null);
     }
 
-    public static Notification buildNotification(Context context, String title, String body, boolean hidable) {
+    public static Notification buildNotification(Context context, String title, String body) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -62,7 +62,7 @@ public final class NotificationUtils {
             notificationManager.createNotificationChannel(mChannel);
         }
 
-        NotificationCompat.Builder mBuilder = getDefaultBuilder(context, title, body, hidable);
+        NotificationCompat.Builder mBuilder = getDefaultBuilder(context, title, body);
         if (body == null) {
             mBuilder = getProgressBuilder(context);
         }
@@ -78,15 +78,15 @@ public final class NotificationUtils {
         return mBuilder.build();
     }
 
-    public static void showNotification(Context context, String title, String body, boolean hidable) {
+    public static void showNotification(Context context, String title, String body) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Notification notification = buildNotification(context, title, body, hidable);
-        notificationManager.notify(getRandomId(),notification);
+        Notification notification = buildNotification(context, title, body);
+        notificationManager.notify(getRandomId(), notification);
     }
 
     @NonNull
-    private static NotificationCompat.Builder getDefaultBuilder(Context context, String title, String body, boolean hidable) {
+    private static NotificationCompat.Builder getDefaultBuilder(Context context, String title, String body) {
         return new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_baseline_warning_24)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon))
@@ -95,8 +95,8 @@ public final class NotificationUtils {
                 .setVisibility(NotificationCompat.VISIBILITY_SECRET)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
-                .setOngoing(!hidable)
-                .setAutoCancel(hidable);
+                .setOngoing(false)
+                .setAutoCancel(true);
     }
 
     @NonNull

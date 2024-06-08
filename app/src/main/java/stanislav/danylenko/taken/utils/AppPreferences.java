@@ -58,9 +58,9 @@ public class AppPreferences {
         return sharedPreferences.getBoolean(name, false);
     }
 
-    public static boolean isPsswdExists(Context context) {
+    public static boolean isPasswordExists(Context context) {
         String data = getStringData(context, PSSWD);
-        return data != null && !"".equals(data);
+        return data != null && !data.isEmpty();
     }
 
     public static void cleanAllDataByKeys(Context context, List<String> keys) {

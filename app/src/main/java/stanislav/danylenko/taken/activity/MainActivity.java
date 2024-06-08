@@ -18,12 +18,14 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import stanislav.danylenko.taken.utils.AppPreferences;
 import stanislav.danylenko.taken.utils.AppUtils;
 import stanislav.danylenko.taken.service.CheckingService;
 import stanislav.danylenko.taken.R;
+import stanislav.danylenko.taken.utils.PermissionUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         this.activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 
         addListeners();
+        requestNotificationPermission();
     }
 
     @Override
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startChecking(View view) {
-        if (AppPreferences.isPsswdExists(this)) {
+        if (AppPreferences.isPasswordExists(this)) {
             startService();
         } else {
             Toast.makeText(this, R.string.password_not_set_first_start, Toast.LENGTH_LONG).show();
@@ -138,5 +141,21 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S_V2) {
+            if (!shouldShowRequestPermissionRationale(PermissionUtils.PERMISSION_REQUEST_CODE_STR)){
+                PermissionUtils.getNotificationPermission(this);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+        int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionUtils.processAnswer(this, requestCode, grantResults);
     }
 }

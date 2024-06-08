@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="stanislav.danylenko.taken">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:allowBackup="true"
@@ -14,11 +15,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Taken"
-        tools:targetApi="31">
+        tools:targetApi="34">
         <service
             android:name=".service.CheckingService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Service is used for tracking ACCELEROMETER sensor values and detecting
+                    changes of these values. Then the application displays a notification about detected
+                    changes. When a user configures any wearable device (e.g. smart watch) to receive
+                    notifications from the smartphone then they will be aware that probably someone
+                    has taken their smartphone."/>
+        </service>
         <activity
             android:name=".activity.InfoActivity"
             android:screenOrientation="portrait"

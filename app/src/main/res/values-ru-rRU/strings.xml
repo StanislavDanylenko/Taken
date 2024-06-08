@@ -57,4 +57,5 @@
     <string name="tarcking_state_progress">Отслеживание положения смарфона</string>
     <string name="tracking_error">Ошибка запуска отлеживания</string>
     <string name="stop_tracking_on_unlock">Остановить отслеживание при разблокировке экрана</string>
+    <string name="permission_error">Для работы приложения необходимо разрешить уведомления для Taken в настройках устройства</string>
 </resources>

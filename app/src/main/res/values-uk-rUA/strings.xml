@@ -58,4 +58,5 @@
     <string name="tarcking_state_progress">Відслідковування позиції смартфона</string>
     <string name="tracking_error">Помилка запуску відслідковування</string>
     <string name="stop_tracking_on_unlock">Зупинити відслідковування при розблокуванні екрану</string>
+    <string name="permission_error">Для работи застосунка необхідно дозволити сповіщення для Taken в налаштуваннях пристрою</string>
 </resources>

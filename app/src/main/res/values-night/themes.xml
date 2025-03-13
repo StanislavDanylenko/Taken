@@ -4,14 +4,14 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/grey</item>
         <item name="colorPrimaryVariant">@color/cardview_dark_background</item>
-<!--        <item name="colorSurface">@color/grey</item>-->
+        <item name="android:windowBackground">?attr/colorSurface</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/accentRed</item>
         <item name="colorSecondaryVariant">@color/accentRed</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
         <!-- Customize your theme here. -->
     </style>
     <style name="Divider">

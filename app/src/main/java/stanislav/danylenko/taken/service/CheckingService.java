@@ -1,6 +1,5 @@
 package stanislav.danylenko.taken.service;
 
-import static android.Manifest.permission.FOREGROUND_SERVICE_SPECIAL_USE;
 import static android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE;
 
 import android.app.Service;

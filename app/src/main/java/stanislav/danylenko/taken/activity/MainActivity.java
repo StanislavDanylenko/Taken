@@ -5,11 +5,13 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
@@ -20,6 +22,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import stanislav.danylenko.taken.utils.AppPreferences;
 import stanislav.danylenko.taken.utils.AppUtils;
@@ -40,6 +45,20 @@ public class MainActivity extends AppCompatActivity {
 
         addListeners();
         requestNotificationPermission();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+
+            View viewById = findViewById(R.id.layout);
+
+            ViewCompat.setOnApplyWindowInsetsListener(viewById, (v, insets) -> {
+                int topInset = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
+                v.setPadding(10, topInset, 10, 10);
+                return insets;
+            });
+
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
     }
 
     @Override

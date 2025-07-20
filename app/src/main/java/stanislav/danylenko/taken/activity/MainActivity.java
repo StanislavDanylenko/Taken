@@ -4,27 +4,25 @@ import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.material.slider.Slider;
 
 import stanislav.danylenko.taken.utils.AppPreferences;
 import stanislav.danylenko.taken.utils.AppUtils;
@@ -39,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
         this.activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
@@ -46,25 +45,17 @@ public class MainActivity extends AppCompatActivity {
         addListeners();
         requestNotificationPermission();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-            WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
-
-            View viewById = findViewById(R.id.layout);
-
-            ViewCompat.setOnApplyWindowInsetsListener(viewById, (v, insets) -> {
-                int topInset = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
-                v.setPadding(10, topInset, 10, 10);
-                return insets;
-            });
-
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
+        this.setSupportActionBar(findViewById(R.id.topAppBar));
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        changeInfoIcon();
         if (AppUtils.isServiceRunning(activityManager, CheckingService.class)) {
             startPinActivity();
         }
@@ -74,17 +65,6 @@ public class MainActivity extends AppCompatActivity {
     private void addListeners() {
         Button start = findViewById(R.id.startButton);
         start.setOnClickListener(this::startChecking);
-    }
-
-    private void changeInfoIcon() {
-        switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
-            case Configuration.UI_MODE_NIGHT_YES:
-                break;
-            case Configuration.UI_MODE_NIGHT_NO:
-                TextView view = findViewById(R.id.info_message);
-                view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_baseline_info_grey_24);
-                break;
-        }
     }
 
     public void startChecking(View view) {
@@ -122,8 +102,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private int getSensitivity() {
-        SeekBar seekBar = findViewById(R.id.seekBar);
-        return AppUtils.SENSITIVITY_MAX_VALUE - seekBar.getProgress();
+        Slider seekBar = findViewById(R.id.seekBar);
+        return AppUtils.SENSITIVITY_MAX_VALUE - (int) seekBar.getValue();
     }
 
     private boolean isStopOnUnlockCheckBoxChecked() {

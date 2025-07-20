@@ -4,13 +4,13 @@
     <string name="new_password">Новый PIN</string>
     <string name="new_password_repeat">Повторите Новый PIN</string>
     <string name="fill_in">Заполните</string>
-    <string name="confirm">Подтвердить</string>
+    <string name="confirm">ПОДТВЕРДИТЬ</string>
     <string name="set_value">Пожалуйста, укажите значение</string>
     <string name="passwords_equals">PINы должны быть одинаковыми</string>
     <string name="wrong_length">Пожалуйста, введите 4 цифры</string>
     <string name="incorrect_existing">Некорректный существующий PIN</string>
     <string name="incorrect_password">Некорректный PIN</string>
-    <string name="start">начать</string>
+    <string name="start">НАЧАТЬ</string>
     <string name="enter_pin">Введите PIN чтобы остановить отслеживание</string>
     <string name="instantly">Немедленно</string>
     <string name="_5_seconds">5 секунд</string>
@@ -24,7 +24,7 @@
     <string name="low">низкая</string>
     <string name="high">высокая</string>
     <string name="password_not_set_first_start">Вы не указали ваш PIN, сделайте это перед началом отслеживания</string>
-    <string name="back">&#160;&#160;&#160;&#160;&#160;Назад&#160;&#160;&#160;&#160;&#160;</string>
+    <string name="back">НАЗАД</string>
     <string name="app_bar_update_pin">Обновить PIN</string>
     <string name="new_pin_view_new_pin">Создать PIN</string>
     <string name="password_saved">PIN сохранен, попробуйте запустить отслеживание снова!</string>
@@ -32,7 +32,7 @@
     <string name="app_bar_enter_your_pin">Введите ваш PIN</string>
     <string name="info_activity">Информация про приложение</string>
     <string name="info_activity_text">
-Это приложение позволяет отслеживать изменение положения вашего смартфона в пространстве.\n\n
+\u0020Это приложение позволяет отслеживать изменение положения вашего смартфона в пространстве.\n\n
 При замечании такого поведения приложение начинает слать уведомления каждые 2 секунды. Включите уведомления от приложения на ваших смарт часах или смарт браслете, чтобы уведомления от приложения доходили к вам и выполняли свою функцию.\n\n
 При первом использовании вам будет необходимо установить PIN код для остановки отслеживания. Его позже так же можно изменить в настройках приложения.\n\n
 Вы можете выбрать временной интервал, после которого начнется отслеживание положения смартфона. Это позволит вам положить смартфон в то место, с которого вы хотите, чтобы он не двигался.\n\n

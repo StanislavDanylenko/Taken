@@ -4,13 +4,13 @@
     <string name="new_password">New PIN</string>
     <string name="new_password_repeat">Repeat New PIN</string>
     <string name="fill_in">Fill in</string>
-    <string name="confirm">Confirm</string>
+    <string name="confirm">CONFIRM</string>
     <string name="set_value">Please set the value</string>
     <string name="passwords_equals">PINs should be the same</string>
     <string name="wrong_length">Please fill in 4 digits</string>
     <string name="incorrect_existing">Incorrect existing PIN</string>
     <string name="incorrect_password">Incorrect PIN</string>
-    <string name="start">start</string>
+    <string name="start">START</string>
     <string name="enter_pin">Enter a PIN to stop tracking</string>
     <string name="instantly">Instantly</string>
     <string name="_5_seconds">5 seconds</string>
@@ -24,7 +24,7 @@
     <string name="low">low</string>
     <string name="high">high</string>
     <string name="password_not_set_first_start">You haven\'t specified your PIN, do it before tracking</string>
-    <string name="back">&#160;&#160;&#160;Back&#160;&#160;&#160;</string>
+    <string name="back">BACK</string>
     <string name="app_bar_update_pin">Update your PIN</string>
     <string name="new_pin_view_new_pin">New PIN</string>
     <string name="password_saved">PIN saved, try to start tracking again!</string>
@@ -32,7 +32,7 @@
     <string name="app_bar_enter_your_pin">Enter your PIN</string>
     <string name="info_activity">Info about this app</string>
     <string name="info_activity_text">
-This application allows you to track the change in the position of your smartphone in space.\n\n
+\u0020This application allows you to track the change in the position of your smartphone in space.\n\n
 When the application notices this behavior, is starts sending notifications every 2 seconds. Turn on app notifications on your smartwatch or smart bracelet so that app notifications reach you and do their job.\n\n
 The first time you use it, you will need to set a PIN code to stop tracking. It can also be changed later in the application settings.\n\n
 You can select the time interval after which tracking of the smartphone\'s position will start. This will allow you to put your smartphone where you want it to be without moving.\n\n

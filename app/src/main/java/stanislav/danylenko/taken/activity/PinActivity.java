@@ -1,7 +1,11 @@
 package stanislav.danylenko.taken.activity;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.app.ActivityManager;
@@ -10,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
@@ -56,6 +61,7 @@ public class PinActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_pin);
 
         int itemWidth = getItemWidth();
@@ -83,6 +89,12 @@ public class PinActivity extends AppCompatActivity {
         cleanErrors();
 
         registerBroadcastMessageReceiver();
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
     }
 
     private void registerBroadcastMessageReceiver() {
@@ -166,7 +178,7 @@ public class PinActivity extends AppCompatActivity {
             validateNewPasswordsTheSame();
 
             if (!this.containsError) {
-                AppPreferences.putStringData(this, AppPreferences.PSSWD, newPassword.getText().toString());
+                AppPreferences.putStringData(this, AppPreferences.PSSWD, getString(newPassword));
                 if (this.newMode) {
                     Toast.makeText(this, getString(R.string.password_saved), Toast.LENGTH_LONG).show();
                 }
@@ -177,7 +189,7 @@ public class PinActivity extends AppCompatActivity {
 
 
     private void validateInput(PinView view, TextView errorView) {
-        String oldPass = view.getText().toString();
+        String oldPass = getString(view);
         if (isEmpty(oldPass)) {
             errorView.setText(R.string.set_value);
             this.containsError = true;
@@ -188,8 +200,8 @@ public class PinActivity extends AppCompatActivity {
     }
 
     private void validateNewPasswordsTheSame() {
-        String newPass = newPassword.getText().toString();
-        String newPassRepeat = newPasswordRepeat.getText().toString();
+        String newPass = getString(newPassword);
+        String newPassRepeat = getString(newPasswordRepeat);
 
         if (newPasswordRepeatValidation.getText().toString().equals(EMPTY_STRING)) {
             if (!isEmpty(newPass) && !isEmpty(newPassRepeat) && !newPass.equals(newPassRepeat)) {
@@ -201,7 +213,7 @@ public class PinActivity extends AppCompatActivity {
 
     private void validateOldTheSame() {
         String old = AppPreferences.getStringData(this, AppPreferences.PSSWD);
-        String input = oldPassword.getText().toString();
+        String input = getString(oldPassword);
 
         if (!old.equals(input)) {
             oldPasswordValidation.setText(R.string.incorrect_existing);
@@ -211,7 +223,7 @@ public class PinActivity extends AppCompatActivity {
 
     private void validateCurrentTheSame() {
         String pass = AppPreferences.getStringData(this, AppPreferences.PSSWD);
-        String input = newPassword.getText().toString();
+        String input = getString(newPassword);
 
         if (!pass.equals(input)) {
             newPasswordValidation.setText(R.string.incorrect_password);
@@ -221,7 +233,7 @@ public class PinActivity extends AppCompatActivity {
 
     public void toMainActivity(View view) {
         try {
-            onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
         } catch (Exception e) {
             startMainActivity();
         }
@@ -283,5 +295,13 @@ public class PinActivity extends AppCompatActivity {
         findViewById(R.id.newPasswordRepeat).setVisibility(View.VISIBLE);
         findViewById(R.id.newPasswordRepeatText).setVisibility(View.VISIBLE);
         findViewById(R.id.newPasswordRepeatValidation).setVisibility(View.VISIBLE);
+    }
+
+    private String getString(PinView pinView) {
+        Editable text = pinView.getText();
+        if (text == null) {
+            return EMPTY_STRING;
+        }
+        return text.toString();
     }
 }

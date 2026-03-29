@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import java.util.List;
 
 public class AppPreferences {
-
     public static final String STORAGE_NAME = "TAKEN_DATA";
     public static final String PSSWD = "PSSWD";
 
@@ -71,7 +70,6 @@ public class AppPreferences {
         }
         editor.apply();
     }
-
 
     private static SharedPreferences getSharedPreferences(Context context) {
         return context.getSharedPreferences(STORAGE_NAME, Context.MODE_PRIVATE);

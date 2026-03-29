@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 public class ServiceUtils {
-
     public static void readAllPrefs(Context context) {
         boolean hTaken = AppPreferences.getBooleanData(context, AppUtils.S_TAKEN);
         Log.w("TAKEN INFO", "S_TAKEN = " + hTaken);
@@ -26,7 +25,6 @@ public class ServiceUtils {
         Log.w("TAKEN INFO", "S_START_VALUE_Z = " + hz);
     }
 
-
     public static void saveStartTimestamp(Context context) {
         AppPreferences.putLongData(context, AppUtils.S_START_TIMESTAMP, System.currentTimeMillis());
     }
@@ -34,7 +32,6 @@ public class ServiceUtils {
     public static long loadStartTimestamp(Context context) {
         return AppPreferences.getLongData(context, AppUtils.S_START_TIMESTAMP);
     }
-
 
     public static void saveTrackingStarted(Context context, boolean isStarted) {
         AppPreferences.putBooleanData(context, AppUtils.S_TRACKING_STARTED, isStarted);
@@ -53,7 +50,6 @@ public class ServiceUtils {
         return AppPreferences.getBooleanData(context, AppUtils.S_TAKEN);
     }
 
-
     public static void saveIsCancelled(Context context, boolean IsCancelled) {
         AppPreferences.putBooleanData(context, AppUtils.S_CANCELLED, IsCancelled);
     }
@@ -61,7 +57,6 @@ public class ServiceUtils {
     public static boolean loadIsCancelled(Context context) {
         return AppPreferences.getBooleanData(context, AppUtils.S_CANCELLED);
     }
-
 
     public static void saveStartPosition(Context context, float[] startValues) {
         AppPreferences.putFloatData(context, AppUtils.S_START_VALUE_X, startValues[0]);
@@ -81,9 +76,7 @@ public class ServiceUtils {
         }
     }
 
-
     public static void cleanAllServiceData(Context context) {
         AppPreferences.cleanAllDataByKeys(context, AppUtils.SERVICE_PREFS_LIST);
     }
-
 }

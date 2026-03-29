@@ -13,7 +13,6 @@ import androidx.core.app.ActivityCompat;
 import stanislav.danylenko.taken.R;
 
 public final class PermissionUtils {
-
     public static final int PERMISSION_REQUEST_CODE = 112;
     public static final String PERMISSION_REQUEST_CODE_STR = "112";
 
@@ -40,5 +39,4 @@ public final class PermissionUtils {
             }
         }
     }
-
 }

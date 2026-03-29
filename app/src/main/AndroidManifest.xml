@@ -39,6 +39,7 @@
             android:name=".activity.PinActivity"
             android:screenOrientation="portrait"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.MainActivity"

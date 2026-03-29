@@ -19,7 +19,6 @@ import stanislav.danylenko.taken.R;
 import stanislav.danylenko.taken.activity.MainActivity;
 
 public final class NotificationUtils {
-
     public static final String CHANNEL_ID = "TakenNotificationChannel";
     public static final String CHANNEL_NAME = "TakenNotificationChannel";
 
@@ -120,5 +119,4 @@ public final class NotificationUtils {
     public static int getRandomId() {
         return RANDOM.nextInt();
     }
-
 }

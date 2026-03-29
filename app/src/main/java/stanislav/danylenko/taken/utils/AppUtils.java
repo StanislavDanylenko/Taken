@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public final class AppUtils {
-
     private AppUtils() {}
 
     public static final String DELAY = "delay";

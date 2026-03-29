@@ -31,7 +31,6 @@ import stanislav.danylenko.taken.R;
 import stanislav.danylenko.taken.utils.PermissionUtils;
 
 public class MainActivity extends AppCompatActivity {
-
     private ActivityManager activityManager;
 
     @Override
@@ -60,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
             startPinActivity();
         }
     }
-
 
     private void addListeners() {
         Button start = findViewById(R.id.startButton);

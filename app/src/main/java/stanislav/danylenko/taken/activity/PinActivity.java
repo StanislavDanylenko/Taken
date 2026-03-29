@@ -18,6 +18,7 @@ import android.text.Editable;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +30,6 @@ import stanislav.danylenko.taken.service.CheckingService;
 import stanislav.danylenko.taken.R;
 
 public class PinActivity extends AppCompatActivity {
-
     public static final String EMPTY_STRING = "";
 
     private PinView oldPassword;
@@ -92,9 +92,23 @@ public class PinActivity extends AppCompatActivity {
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            Insets imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime());
+            int bottom = Math.max(systemBars.bottom, imeInsets.bottom);
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, bottom);
             return insets;
         });
+
+        ScrollView scrollView = findViewById(R.id.main);
+
+        View.OnFocusChangeListener listener = (v, hasFocus) -> {
+            if (hasFocus) {
+                v.post(() -> scrollView.smoothScrollTo(0, v.getBottom()));
+            }
+        };
+
+        findViewById(R.id.oldPassword).setOnFocusChangeListener(listener);
+        findViewById(R.id.newPassword).setOnFocusChangeListener(listener);
+        findViewById(R.id.newPasswordRepeat).setOnFocusChangeListener(listener);
     }
 
     private void registerBroadcastMessageReceiver() {

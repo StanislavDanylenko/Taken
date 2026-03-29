@@ -26,7 +26,6 @@ import stanislav.danylenko.taken.utils.NotificationUtils;
 import stanislav.danylenko.taken.utils.ServiceUtils;
 
 public class CheckingService extends Service implements SensorEventListener {
-
     private int sensitivity;
 
     private boolean taken = false;
@@ -46,11 +45,11 @@ public class CheckingService extends Service implements SensorEventListener {
     private final BroadcastReceiver screenUnlockActionReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (Intent.ACTION_USER_PRESENT.equals(intent.getAction())) {
-                unlocked = true;
-                sendServiceStoppedMessage();
-                stopSelf();
-            }
+        if (Intent.ACTION_USER_PRESENT.equals(intent.getAction())) {
+            unlocked = true;
+            sendServiceStoppedMessage();
+            stopSelf();
+        }
         }
     };
 
